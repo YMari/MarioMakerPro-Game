@@ -96,4 +96,8 @@ public class MusicHandler {
 		Clip clip = getClip(loadAudio("stomp"));
 		clip.start();
 	}
+	public void playmarioDies() {
+		Clip clip = getClip(loadAudio("marioDies"));
+		clip.start();
+	}
 }

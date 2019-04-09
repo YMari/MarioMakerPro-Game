@@ -319,43 +319,44 @@ public class MenuState extends State {
 
 	public BufferedImage createImage(int width,int height,Color[][] blocks,String name){
 
-		// Create buffered image object
-		BufferedImage img = null;
-		MapBuilder.mapDone=false;
-		if(name.equals(str2)) MapBuilder.mapDone = true;
-		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+	    // Create buffered image object
+	    BufferedImage img = null;
+	    img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-		// file object
-		File f = null;
+	    // file object
+	    File f = null;
 
-		// create random values pixel by pixel
-		for (int y = 0; y < height; y++)
-		{
-			for (int x = 0; x < width; x++)
-			{
-				if(blocks[x][y]!=null) {
-					img.setRGB(x, y, blocks[x][y].getRGB());
-				}else{
-					img.setRGB(x, y, Color.WHITE.getRGB());
+	    // create random values pixel by pixel
+	    for (int y = 0; y < height; y++)
+	    {
+	        for (int x = 0; x < width; x++)
+	        {
+	            if(blocks[x][y]!=null) {
+	                img.setRGB(x, y, blocks[x][y].getRGB());
+	            }else{
+	                img.setRGB(x, y, Color.WHITE.getRGB());
 
-				}
-			}
-		}
+	            }
+	        }
+	    }
 
-		// write image
-		try
-		{
-			String path = getClass().getClassLoader().getResource(".").getPath();
-			String path2 = path.substring(0,path.indexOf("/out/"))+"/res/maps/"+name+".png";
-			f = new File(path2);
-			System.out.println("File saved in: "+path2);
-			ImageIO.write(img, "png", f);
-		}
-		catch(IOException e)
-		{
-			System.out.println("Error: " + e);
-		}
-		return img;
+	    // write image
+	    try
+	    {
+	        String path = getClass().getClassLoader().getResource(".").getPath();
+
+	        String path2 = path.substring(0,path.indexOf("/out/"))+"/res/maps/"+name+".png";
+	        path2 = path2.replaceAll("%20"," ");
+
+	        f = new File(path2);
+	        System.out.println("File saved in: "+path2);
+	        ImageIO.write(img, "png", f);
+	    }
+	    catch(IOException e)
+	    {
+	        System.out.println("Error: " + e);
+	    }
+	    return img;
 	}
 
 }
