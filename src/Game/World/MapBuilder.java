@@ -23,7 +23,7 @@ public class MapBuilder {
 	public static int mushroom = new Color(178,0,255).getRGB();
 	public static int goomba = new Color(167,15,1).getRGB();
 	
-	public static int wario = new Color(100,240,45).getRGB();
+	public static int wario = new Color(0,255,0).getRGB();
 	
 	public static boolean mapDone = false;
 	
