@@ -22,6 +22,7 @@ public class Images {
     public static BufferedImage[] backgrounds;
     public static BufferedImage[] backgrounds2;
 
+    // player one
     public static BufferedImage[] marioSmallWalkLeft;
     public static BufferedImage[] marioSmallWalkRight;
     public static BufferedImage[] marioSmallJumpLeft;//also store ide sprites like looking up or down
@@ -33,7 +34,9 @@ public class Images {
     public static BufferedImage[] marioBigRunRight;
     public static BufferedImage[] marioBigJumpLeft;//also store ide sprites like looking up or down and left<->right transition
     public static BufferedImage[] marioBigJumpRight;
+    //////////////
     
+    // player two
     public static BufferedImage[] warioSmallWalkLeft;
     public static BufferedImage[] warioSmallWalkRight;
     public static BufferedImage[] warioSmallJumpLeft;
@@ -45,6 +48,7 @@ public class Images {
     public static BufferedImage[] warioBigRunRight;
     public static BufferedImage[] warioBigJumpLeft;
     public static BufferedImage[] warioBigJumpRight;
+    //////////////
     
     public static BufferedImage[] item;
     public static BufferedImage[] enemy;
