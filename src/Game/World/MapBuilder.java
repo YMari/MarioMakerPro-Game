@@ -15,6 +15,8 @@ public class MapBuilder {
 
 	public static int pixelMultiplier = 48;
 	public static int boundBlock = new Color(0,0,0).getRGB();
+	public static int groundBlock = new Color(19,147,36).getRGB(); // new block color green
+	public static int grassBlock = new Color(221,31,155).getRGB(); // new block 2 color pink
 	public static int mario = new Color(255,0,0).getRGB();
 	public static int surfaceBlock = new Color(255,106,0).getRGB();
 	public static int breakBlock = new Color(0,38,255).getRGB();
@@ -32,8 +34,15 @@ public class MapBuilder {
 				int yPos = j*pixelMultiplier;
 				if(currentPixel == boundBlock){
 					BaseStaticEntity BoundBlock = new BoundBlock(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
-					mapInCreation.addBlock(BoundBlock);
-				}else if(currentPixel == mario){
+					mapInCreation.addBlock(BoundBlock);	
+				}else if(currentPixel == groundBlock){
+					BaseStaticEntity groundBlock = new GroundBlock(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+					mapInCreation.addBlock(groundBlock);
+				}else if(currentPixel == grassBlock){
+					BaseStaticEntity grassBlock = new GrassBlock(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+					mapInCreation.addBlock(grassBlock);
+				}
+				else if(currentPixel == mario){
 					BaseDynamicEntity Mario = new Mario(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 					mapInCreation.addEnemy(Mario);
 				}else if(currentPixel == surfaceBlock){
@@ -52,8 +61,8 @@ public class MapBuilder {
 					BaseDynamicEntity Goomba = new Goomba(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 					mapInCreation.addEnemy(Goomba);
 				}
-			}
 
+			}
 		}
 		if(mapDone) {
 			Images.makeMap(50, pixelMultiplier, mapImage.getWidth(), 100, mapInCreation, handler);
