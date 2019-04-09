@@ -65,6 +65,7 @@ public class Images {
     public static BufferedImage goombaDies;
     public static BufferedImage groundBlock; // new block
     public static BufferedImage grassBlock; // new block 2
+    public static BufferedImage ghost; // new enemy
 
     private SpriteSheet mainmenuSpriteSheet;
     private SpriteSheet backgroundSpriteSheet;
@@ -311,6 +312,7 @@ public class Images {
             goomba[0]=goombaSpriteSheet.crop(119,40,162,162);
             goomba[1]= goombaSpriteSheet.crop(329,40,162,162);
             goombaDies=goombaSpriteSheet.crop(539,100,162,81);
+            ghost = ImageIO.read(getClass().getResourceAsStream("/Sheets/ghost.png")); // new enemy
 
 
         }catch (IOException e) {
