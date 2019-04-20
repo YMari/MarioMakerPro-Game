@@ -110,7 +110,7 @@ public class Player extends BaseDynamicEntity {
 
 		for (BaseDynamicEntity enemy : enemies) {
 			Rectangle enemyTopBounds = enemy.getTopBounds();
-			if (marioBottomBounds.intersects(enemyTopBounds) && !(enemy instanceof Item)) {
+			if (marioBottomBounds.intersects(enemyTopBounds) && !(enemy instanceof Item) && !(enemy instanceof Ghost)) {
 				if(!enemy.ded) {
 					handler.getGame().getMusicHandler().playStomp();
 				}
@@ -118,6 +118,10 @@ public class Player extends BaseDynamicEntity {
 				falling=false;
 				velY=0;
 
+			}
+			if (marioBottomBounds.intersects(enemyTopBounds) && (enemy instanceof Ghost)){
+				marioDies = true;
+				break;
 			}
 		}
 		if (marioDies) {
