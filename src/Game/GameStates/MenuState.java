@@ -6,6 +6,7 @@ import Display.UI.UIStringButton;
 import Game.World.MapBuilder;
 import Input.KeyManager;
 import Input.MouseManager;
+import Main.GameSetUp;
 import Main.Handler;
 import Resources.Images;
 import Display.UI.UIAnimationButton;
@@ -75,11 +76,11 @@ public class MenuState extends State {
 				mode = "Select";
 			}
 		}));
-		
-//		if (Handler.multiplayer && handler.isInMap()) {
-//		if (Handler.multiplayer) {
-//			handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
-//		}
+
+		//		if (Handler.multiplayer && handler.isInMap()) {
+		//		if (Handler.multiplayer) {
+		//			handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
+		//		}
 	}
 
 	@Override
@@ -87,11 +88,11 @@ public class MenuState extends State {
 		if(!creatingMap) {
 			handler.getMouseManager().setUimanager(uiManager);
 			uiManager.tick();
-//			if (State.getState().equals(handler.getGame().gameState) && Handler.multiplayer) {
-//				handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
-//			}
+			//			if (State.getState().equals(handler.getGame().gameState) && Handler.multiplayer) {
+			//				handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
+			//			}
 			if (mode.equals("Select")) {
-				
+
 				// Single/Multiplayer Selection screen
 				mode = "Mode Selection";
 				Handler.multiplayer = false;
@@ -152,7 +153,7 @@ public class MenuState extends State {
 							}
 						}, handler,Color.BLACK));
 						uiManager.addObjects(this.but);
-			
+
 					}
 				}, handler,Color.BLACK));
 
@@ -161,9 +162,10 @@ public class MenuState extends State {
 					if(!handler.isInMap()) {
 						mode = "Selecting";
 						Handler.multiplayer = true;
-						//handler.getGame().display.frame.setLocation(handler.getWidth()/3, handler.getHeight()/4);;
+						//						new DisplayScreen(handler.getGame().title, handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getHeight());
+						//						DisplayScreen display = new DisplayScreen(handler.getGame().title, handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getHeight());
 						handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
-						
+
 						uiManager = new UIManager(handler);
 						handler.getMouseManager().setUimanager(uiManager);
 
@@ -214,11 +216,11 @@ public class MenuState extends State {
 							}
 						}, handler,Color.BLACK));
 						uiManager.addObjects(this.but);
-			
+
 					}
 				}, handler,Color.BLACK));
 			}
-					
+
 			if (mode.equals("Selecting") && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE) && (!handler.isInMap())) {
 				mode = "Menu";
 				Handler.multiplayer = false;
@@ -323,10 +325,12 @@ public class MenuState extends State {
 			display.getCanvas().setCursor(c);
 			colorSelected = MapBuilder.ghost;
 		}
-		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_E)){
-			Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(Images.tint(Images.Cursor,0,1,1), new Point(0, 0), "cursor1");
-			display.getCanvas().setCursor(c);
-			colorSelected = MapBuilder.wario;
+		if (Handler.multiplayer) {
+			if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_E)){
+				Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(Images.tint(Images.Cursor,0,1,1), new Point(0, 0), "cursor1");
+				display.getCanvas().setCursor(c);
+				colorSelected = MapBuilder.wario;
+			}
 		}
 
 		if(mouseManager.isLeftPressed() && !clicked){
@@ -358,20 +362,35 @@ public class MenuState extends State {
 			}
 		}
 		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_H)){
-			JOptionPane.showMessageDialog(display.getFrame(), "Number key <-> Color Mapping: \n" +
-					"0 -> Erase \n" +
-					"1 -> Mario (Red)\n" +
-					"2 -> Break Block (Blue)\n" +
-					"3 -> Mystery Block (Yellow)\n" +
-					"4 -> Surface Block (Orange)\n" +
-					"5 -> Bounds Block (Black)\n" +
-					"6 -> Mushroom (Purple)\n" +
-					"7 -> Goomba (Brown)\n" +
-					"8 -> Ground Block (Green)\n" +
-					"9 -> Grass Block (Pink)\n" +
-					"Q -> Ghost (Grey)\n" +
-					"E -> Wario (Cyan)");
-
+			if (Handler.multiplayer) {
+				JOptionPane.showMessageDialog(display.getFrame(), "Number key <-> Color Mapping: \n" +
+						"0 -> Erase \n" +
+						"1 -> Mario (Red)\n" +
+						"2 -> Break Block (Blue)\n" +
+						"3 -> Mystery Block (Yellow)\n" +
+						"4 -> Surface Block (Orange)\n" +
+						"5 -> Bounds Block (Black)\n" +
+						"6 -> Mushroom (Purple)\n" +
+						"7 -> Goomba (Brown)\n" +
+						"8 -> Ground Block (Green)\n" +
+						"9 -> Grass Block (Pink)\n" +
+						"Q -> Ghost (Grey)\n" +
+						"E -> Wario (Cyan)");
+			}
+			else {
+				JOptionPane.showMessageDialog(display.getFrame(), "Number key <-> Color Mapping: \n" +
+						"0 -> Erase \n" +
+						"1 -> Mario (Red)\n" +
+						"2 -> Break Block (Blue)\n" +
+						"3 -> Mystery Block (Yellow)\n" +
+						"4 -> Surface Block (Orange)\n" +
+						"5 -> Bounds Block (Black)\n" +
+						"6 -> Mushroom (Purple)\n" +
+						"7 -> Goomba (Brown)\n" +
+						"8 -> Ground Block (Green)\n" +
+						"9 -> Grass Block (Pink)\n" +
+						"Q -> Ghost (Grey)");
+			}
 		}
 	}
 	public UIAnimationButton getBut() {

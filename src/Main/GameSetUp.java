@@ -95,11 +95,11 @@ public class GameSetUp implements Runnable {
 
 	private void init2() {
 		display2 = new DisplayScreen(title, handler.width, handler.height);
-		display2.getFrame2().addKeyListener(keyManager);
-		display2.getFrame2().addMouseListener(mouseManager);
-		display2.getFrame2().addMouseMotionListener(mouseManager);
-		display2.getCanvas2().addMouseListener(mouseManager);
-		display2.getCanvas2().addMouseMotionListener(mouseManager);
+		handler.getGame().display2.getFrame().addKeyListener(keyManager);
+		handler.getGame().display2.getFrame().addMouseListener(mouseManager);
+		handler.getGame().display2.getFrame().addMouseMotionListener(mouseManager);
+		handler.getGame().display2.getCanvas().addMouseListener(mouseManager);
+		handler.getGame().display2.getCanvas().addMouseMotionListener(mouseManager);
 
 		Images img = new Images();
 
@@ -168,8 +168,6 @@ public class GameSetUp implements Runnable {
 	private void tick(){
 		//checks for key types and manages them
 
-
-
 		keyManager.tick();
 
 		if(musicHandler.ended()){
@@ -181,6 +179,7 @@ public class GameSetUp implements Runnable {
 			State.getState().tick();
 		if (handler.isInMap()) {
 			updateCamera();
+			//updateCamera2();
 		}
 
 	}
@@ -207,30 +206,33 @@ public class GameSetUp implements Runnable {
 			shiftAmountY = -marioVelocityY;
 		}
 		handler.getCamera().moveCam(shiftAmount,shiftAmountY);
-
-		// player 2
-//		if (Handler.multiplayer) {
-//			Player wario = handler.getWario();
-//			double warioVelocityX = wario.getVelX();
-//			double warioVelocityY = wario.getVelY();
-//			double shiftAmount2 = 0;
-//			double shiftAmountY2 = 0;
-//
-//			if (warioVelocityX > 0 && wario.getX() - 2*(handler.getWidth()/3) > handler.getCamera().getX()) {
-//				shiftAmount2 = warioVelocityX;
-//			}
-//			if (warioVelocityX < 0 && wario.getX() +  2*(handler.getWidth()/3) < handler.getCamera().getX()+handler.width) {
-//				shiftAmount2 = warioVelocityX;
-//			}
-//			if (warioVelocityY > 0 && wario.getY() - 2*(handler.getHeight()/3) > handler.getCamera().getY()) {
-//				shiftAmountY2 = warioVelocityY;
-//			}
-//			if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera().getY()+handler.height) {
-//				shiftAmountY2 = -warioVelocityY;
-//			}
-//			handler.getCamera().moveCam(shiftAmount2,shiftAmountY2);
-//		}
 	}
+	
+	private void updateCamera2() {
+		// player 2
+		if (Handler.multiplayer) {
+			Player wario = handler.getWario();
+			double warioVelocityX = wario.getVelX();
+			double warioVelocityY = wario.getVelY();
+			double shiftAmount2 = 0;
+			double shiftAmountY2 = 0;
+
+			if (warioVelocityX > 0 && wario.getX() - 2*(handler.getWidth()/3) > handler.getCamera().getX()) {
+				shiftAmount2 = warioVelocityX;
+			}
+			if (warioVelocityX < 0 && wario.getX() +  2*(handler.getWidth()/3) < handler.getCamera().getX()+handler.width) {
+				shiftAmount2 = warioVelocityX;
+			}
+			if (warioVelocityY > 0 && wario.getY() - 2*(handler.getHeight()/3) > handler.getCamera().getY()) {
+				shiftAmountY2 = warioVelocityY;
+			}
+			if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera().getY()+handler.height) {
+				shiftAmountY2 = -warioVelocityY;
+			}
+			handler.getCamera().moveCam(shiftAmount2,shiftAmountY2);
+		}
+	}
+
 
 	private void render(){
 		bs = display.getCanvas().getBufferStrategy();
@@ -249,21 +251,22 @@ public class GameSetUp implements Runnable {
 		if(State.getState() != null)
 			State.getState().render(g);
 
-		//		if (Handler.multiplayer) {
-		//			bs2 = display2.getCanvas().getBufferStrategy();
-		//			gTwo = bs2.getDrawGraphics();
-		//			gTwo.clearRect(0, 0,  handler.width, handler.height);
-		//			Graphics2D gd2 = (Graphics2D) gTwo.create();
-		//			if(State.getState() != null)
-		//				State.getState().render(gTwo);
-		//			bs2.show();
-		//			gTwo.dispose();
-		//		}
+//		if (Handler.multiplayer) {
+//			bs2 = display2.getCanvas2().getBufferStrategy();
+//			gTwo = bs2.getDrawGraphics();
+//			gTwo.clearRect(0, 0,  handler.width, handler.height);
+//			Graphics2D gd2 = (Graphics2D) gTwo.create();
+//			if(State.getState() != null)
+//				State.getState().render(gTwo);
+//			bs2.show();
+//			gTwo.dispose();
+//		}
 
 
 		//End Drawing!
 		bs.show();
 		g.dispose();
+		
 	}
 	public Map getMap() {
 		Map map = new Map(this.handler);
