@@ -27,7 +27,7 @@ public class MapBuilder {
 	public static int ghost = new Color(73,70,70).getRGB(); // new enemy color grey
 	public static int goomba = new Color(167,15,1).getRGB();
 	
-	public static int wario = new Color(0,255,0).getRGB();
+	public static int wario = new Color(0,255,255).getRGB(); //player two color cyan
 	
 	public static boolean mapDone = false;
 	
