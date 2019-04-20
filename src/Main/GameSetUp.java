@@ -4,6 +4,7 @@ import Display.DisplayScreen;
 import Display.UI.UIPointer;
 import Game.Entities.DynamicEntities.Mario;
 import Game.Entities.DynamicEntities.Player;
+import Game.Entities.DynamicEntities.Wario;
 import Game.Entities.StaticEntities.BreakBlock;
 import Game.GameStates.GameOverState;
 import Game.GameStates.GameState;
@@ -27,213 +28,285 @@ import java.awt.image.BufferStrategy;
  */
 
 public class GameSetUp implements Runnable {
-    public DisplayScreen display;
-    public String title;
+	public DisplayScreen display;
+	public DisplayScreen display2;   // second screen
+	public String title;
 
-    private boolean running = false;
-    private Thread thread;
-    public static boolean threadB;
+	private boolean running = false;
+	private Thread thread;
+	public static boolean threadB;
 
-    private BufferStrategy bs;
-    private Graphics g;
-    public UIPointer pointer;
+	private BufferStrategy bs;
+	private BufferStrategy bs2;
+	private Graphics g;
+	private Graphics gTwo;
+	public UIPointer pointer;
 
-    //Input
-    public KeyManager keyManager;
-    public MouseManager mouseManager;
-    public MouseManager initialmouseManager;
+	//Input
+	public KeyManager keyManager;
+	public MouseManager mouseManager;
+	public MouseManager initialmouseManager;
 
-    //Handler
-    private Handler handler;
+	//Handler
+	private Handler handler;
 
-    //States
-    public State gameState;
-    public State menuState;
-    public State pauseState;
-    public State gameOverState; // added
+	//States
+	public State gameState;
+	public State menuState;
+	public State pauseState;
+	public State gameOverState; // added
 
-    //Res.music
-    private MusicHandler musicHandler;
+	boolean displayOn = false;
 
-    public GameSetUp(String title,Handler handler) {
-        this.handler = handler;
-        this.title = title;
-        threadB=false;
+	//Res.music
+	private MusicHandler musicHandler;
 
-        keyManager = new KeyManager();
-        mouseManager = new MouseManager();
-        initialmouseManager = mouseManager;
-        musicHandler = new MusicHandler(handler);
-        handler.setCamera(new Camera());
-    }
+	public GameSetUp(String title,Handler handler) {
+		this.handler = handler;
+		this.title = title;
+		threadB=false;
 
-    private void init(){
-        display = new DisplayScreen(title, handler.width, handler.height);
-        display.getFrame().addKeyListener(keyManager);
-        display.getFrame().addMouseListener(mouseManager);
-        display.getFrame().addMouseMotionListener(mouseManager);
-        display.getCanvas().addMouseListener(mouseManager);
-        display.getCanvas().addMouseMotionListener(mouseManager);
+		keyManager = new KeyManager();
+		mouseManager = new MouseManager();
+		initialmouseManager = mouseManager;
+		musicHandler = new MusicHandler(handler);
+		handler.setCamera(new Camera());
+	}
 
-        Images img = new Images();
+	private void init(){
+		display = new DisplayScreen(title, handler.width, handler.height);
+		display.getFrame().addKeyListener(keyManager);
+		display.getFrame().addMouseListener(mouseManager);
+		display.getFrame().addMouseMotionListener(mouseManager);
+		display.getCanvas().addMouseListener(mouseManager);
+		display.getCanvas().addMouseMotionListener(mouseManager);
 
-        musicHandler.restartBackground();
+		Images img = new Images();
 
-        gameState = new GameState(handler);
-        menuState = new MenuState(handler);
-        pauseState = new PauseState(handler);
-        gameOverState = new GameOverState(handler);
+		musicHandler.restartBackground();
 
-        State.setState(menuState);
-    }
+		gameState = new GameState(handler);
+		menuState = new MenuState(handler);
+		pauseState = new PauseState(handler);
+		gameOverState = new GameOverState(handler);
 
-    public void reStart(){
-        gameState = new GameState(handler);
-    }
+		State.setState(menuState);
+	}
 
-    public synchronized void start(){
-        if(running)
-            return;
-        running = true;
-        //this runs the run method in this  class
-        thread = new Thread(this);
-        thread.start();
-    }
+	private void init2() {
+		display2 = new DisplayScreen(title, handler.width, handler.height);
+		display2.getFrame2().addKeyListener(keyManager);
+		display2.getFrame2().addMouseListener(mouseManager);
+		display2.getFrame2().addMouseMotionListener(mouseManager);
+		display2.getCanvas2().addMouseListener(mouseManager);
+		display2.getCanvas2().addMouseMotionListener(mouseManager);
 
-    public void run(){
+		Images img = new Images();
 
-        //initiallizes everything in order to run without breaking
-        init();
+		musicHandler.restartBackground();
 
-        int fps = 60;
-        double timePerTick = 1000000000 / fps;
-        double delta = 0;
-        long now;
-        long lastTime = System.nanoTime();
-        long timer = 0;
-        int ticks = 0;
+		gameState = new GameState(handler);
+		menuState = new MenuState(handler);
+		pauseState = new PauseState(handler);
+		gameOverState = new GameOverState(handler);
 
-        while(running){
-            //makes sure the games runs smoothly at 60 FPS
-            now = System.nanoTime();
-            delta += (now - lastTime) / timePerTick;
-            timer += now - lastTime;
-            lastTime = now;
+		State.setState(menuState);
+	}
 
-            if(delta >= 1){
-                //re-renders and ticks the game around 60 times per second
-                tick();
-                render();
-                ticks++;
-                delta--;
-            }
-            if(timer >= 1000000000){
-                ticks = 0;
-                timer = 0;
-            }
-        }
+	public void reStart(){
+		gameState = new GameState(handler);
+	}
 
-        stop();
+	public synchronized void start(){
+		if(running)
+			return;
+		running = true;
+		//this runs the run method in this  class
+		thread = new Thread(this);
+		thread.start();
+	}
 
-    }
+	public void run(){
 
-    private void tick(){
-        //checks for key types and manages them
-        keyManager.tick();
+		//initiallizes everything in order to run without breaking
+		init();
+		//init2();
+		
 
-        if(musicHandler.ended()){
-            musicHandler.restartBackground();
-        }
+		int fps = 60;
+		double timePerTick = 1000000000 / fps;
+		double delta = 0;
+		long now;
+		long lastTime = System.nanoTime();
+		long timer = 0;
+		int ticks = 0;
 
-        //game states are the menus
-        if(State.getState() != null)
-            State.getState().tick();
-        if (handler.isInMap()) {
-            updateCamera();
-        }
+		while(running){
+			//makes sure the games runs smoothly at 60 FPS
+			now = System.nanoTime();
+			delta += (now - lastTime) / timePerTick;
+			timer += now - lastTime;
+			lastTime = now;
 
-    }
+			if(delta >= 1){
+				//re-renders and ticks the game around 60 times per second
+				tick();
+				render();
+				ticks++;
+				delta--;
+			}
+			if(timer >= 1000000000){
+				ticks = 0;
+				timer = 0;
+			}
+		}
 
-    private void updateCamera() {
-        Player mario = handler.getMario();
-        double marioVelocityX = mario.getVelX();
-        double marioVelocityY = mario.getVelY();
-        double shiftAmount = 0;
-        double shiftAmountY = 0;
+		stop();
 
-        if (marioVelocityX > 0 && mario.getX() - 2*(handler.getWidth()/3) > handler.getCamera().getX()) {
-            shiftAmount = marioVelocityX;
-        }
-        if (marioVelocityX < 0 && mario.getX() +  2*(handler.getWidth()/3) < handler.getCamera().getX()+handler.width) {
-            shiftAmount = marioVelocityX;
-        }
-        if (marioVelocityY > 0 && mario.getY() - 2*(handler.getHeight()/3) > handler.getCamera().getY()) {
-            shiftAmountY = marioVelocityY;
-        }
-        if (marioVelocityX < 0 && mario.getY() +  2*(handler.getHeight()/3) < handler.getCamera().getY()+handler.height) {
-            shiftAmountY = -marioVelocityY;
-        }
-        handler.getCamera().moveCam(shiftAmount,shiftAmountY);
-    }
+	}
 
-    private void render(){
-        bs = display.getCanvas().getBufferStrategy();
-
-        if(bs == null){
-            display.getCanvas().createBufferStrategy(3);
-            return;
-        }
-        g = bs.getDrawGraphics();
-        //Clear Screen
-        g.clearRect(0, 0,  handler.width, handler.height);
-
-        //Draw Here!
-        Graphics2D g2 = (Graphics2D) g.create();
-
-        if(State.getState() != null)
-            State.getState().render(g);
-
-        //End Drawing!
-        bs.show();
-        g.dispose();
-    }
-    public Map getMap() {
-    	Map map = new Map(this.handler);
-    	Images.makeMap(0, MapBuilder.pixelMultiplier, 31, 200, map, this.handler);
-    	for(int i = 195; i < 200; i++) {
-    		map.addBlock(new BreakBlock(0, i*MapBuilder.pixelMultiplier, 48,48, this.handler));
-    		map.addBlock(new BreakBlock(30*MapBuilder.pixelMultiplier, i*MapBuilder.pixelMultiplier, 48,48, this.handler));
-    	}
-    	Mario mario = new Mario(24 * MapBuilder.pixelMultiplier, 196 * MapBuilder.pixelMultiplier, 48,48, this.handler);
-    	map.addEnemy(mario);
-        map.addEnemy(pointer);
-        threadB=true;
-    	return map;
-    }
-
-    public synchronized void stop(){
-        if(!running)
-            return;
-        running = false;
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public KeyManager getKeyManager(){
-        return keyManager;
-    }
-
-    public MusicHandler getMusicHandler() {
-        return musicHandler;
-    }
+	private void tick(){
+		//checks for key types and manages them
 
 
-    public MouseManager getMouseManager(){
-        return mouseManager;
-    }
+
+		keyManager.tick();
+
+		if(musicHandler.ended()){
+			musicHandler.restartBackground();
+		}
+
+		//game states are the menus
+		if(State.getState() != null)
+			State.getState().tick();
+		if (handler.isInMap()) {
+			updateCamera();
+		}
+
+	}
+
+	private void updateCamera() {
+
+		// player 1
+		Player mario = handler.getMario();
+		double marioVelocityX = mario.getVelX();
+		double marioVelocityY = mario.getVelY();
+		double shiftAmount = 0;
+		double shiftAmountY = 0;
+
+		if (marioVelocityX > 0 && mario.getX() - 2*(handler.getWidth()/3) > handler.getCamera().getX()) {
+			shiftAmount = marioVelocityX;
+		}
+		if (marioVelocityX < 0 && mario.getX() +  2*(handler.getWidth()/3) < handler.getCamera().getX()+handler.width) {
+			shiftAmount = marioVelocityX;
+		}
+		if (marioVelocityY > 0 && mario.getY() - 2*(handler.getHeight()/3) > handler.getCamera().getY()) {
+			shiftAmountY = marioVelocityY;
+		}
+		if (marioVelocityX < 0 && mario.getY() +  2*(handler.getHeight()/3) < handler.getCamera().getY()+handler.height) {
+			shiftAmountY = -marioVelocityY;
+		}
+		handler.getCamera().moveCam(shiftAmount,shiftAmountY);
+
+		// player 2
+//		if (Handler.multiplayer) {
+//			Player wario = handler.getWario();
+//			double warioVelocityX = wario.getVelX();
+//			double warioVelocityY = wario.getVelY();
+//			double shiftAmount2 = 0;
+//			double shiftAmountY2 = 0;
+//
+//			if (warioVelocityX > 0 && wario.getX() - 2*(handler.getWidth()/3) > handler.getCamera().getX()) {
+//				shiftAmount2 = warioVelocityX;
+//			}
+//			if (warioVelocityX < 0 && wario.getX() +  2*(handler.getWidth()/3) < handler.getCamera().getX()+handler.width) {
+//				shiftAmount2 = warioVelocityX;
+//			}
+//			if (warioVelocityY > 0 && wario.getY() - 2*(handler.getHeight()/3) > handler.getCamera().getY()) {
+//				shiftAmountY2 = warioVelocityY;
+//			}
+//			if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera().getY()+handler.height) {
+//				shiftAmountY2 = -warioVelocityY;
+//			}
+//			handler.getCamera().moveCam(shiftAmount2,shiftAmountY2);
+//		}
+	}
+
+	private void render(){
+		bs = display.getCanvas().getBufferStrategy();
+
+		if(bs == null){
+			display.getCanvas().createBufferStrategy(3);
+			return;
+		}
+		g = bs.getDrawGraphics();
+		//Clear Screen
+		g.clearRect(0, 0,  handler.width, handler.height);
+
+		//Draw Here!
+		Graphics2D g2 = (Graphics2D) g.create();
+
+		if(State.getState() != null)
+			State.getState().render(g);
+
+		//		if (Handler.multiplayer) {
+		//			bs2 = display2.getCanvas().getBufferStrategy();
+		//			gTwo = bs2.getDrawGraphics();
+		//			gTwo.clearRect(0, 0,  handler.width, handler.height);
+		//			Graphics2D gd2 = (Graphics2D) gTwo.create();
+		//			if(State.getState() != null)
+		//				State.getState().render(gTwo);
+		//			bs2.show();
+		//			gTwo.dispose();
+		//		}
+
+
+		//End Drawing!
+		bs.show();
+		g.dispose();
+	}
+	public Map getMap() {
+		Map map = new Map(this.handler);
+		Images.makeMap(0, MapBuilder.pixelMultiplier, 31, 200, map, this.handler);
+		for(int i = 195; i < 200; i++) {
+			map.addBlock(new BreakBlock(0, i*MapBuilder.pixelMultiplier, 48,48, this.handler));
+			map.addBlock(new BreakBlock(30*MapBuilder.pixelMultiplier, i*MapBuilder.pixelMultiplier, 48,48, this.handler));
+		}
+		Mario mario = new Mario(24 * MapBuilder.pixelMultiplier, 196 * MapBuilder.pixelMultiplier, 48,48, this.handler);
+		map.addEnemy(mario);
+		map.addEnemy(pointer);
+		if (Handler.multiplayer) {
+			Wario wario = new Wario(24 * MapBuilder.pixelMultiplier, 196 * MapBuilder.pixelMultiplier, 48,48, this.handler);
+			map.addEnemy(wario);
+			map.addEnemy(pointer);
+		}
+		threadB=true;
+		return map;
+	}
+
+	public synchronized void stop(){
+		if(!running)
+			return;
+		running = false;
+		try {
+			thread.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public KeyManager getKeyManager(){
+		return keyManager;
+	}
+
+	public MusicHandler getMusicHandler() {
+		return musicHandler;
+	}
+
+
+	public MouseManager getMouseManager(){
+		return mouseManager;
+	}
 
 }
 

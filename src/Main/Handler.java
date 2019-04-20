@@ -1,6 +1,7 @@
 package Main;
 
 import Game.Entities.DynamicEntities.Mario;
+import Game.Entities.DynamicEntities.Wario;
 import Game.World.Map;
 import Input.Camera;
 import Input.KeyManager;
@@ -18,11 +19,13 @@ public class Handler {
     private static final GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     public static final int DEFAULTWIDTH = gd.getDisplayMode().getWidth();
     public static final int DEFAULTHEIGHT = gd.getDisplayMode().getHeight();
+    public static boolean multiplayer = false;
 
     int width,height;
 
     private GameSetUp game;
     private Mario mario;
+    private Wario wario;
     private Map map;
     private boolean marioInMap =false;
 
@@ -64,6 +67,10 @@ public class Handler {
     ///TO CHange
     public Mario getMario() {
         return mario;
+    }
+    
+    public Wario getWario() {
+        return wario;
     }
 
     public void setMario(Mario mario) {

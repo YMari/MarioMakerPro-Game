@@ -67,14 +67,19 @@ public class MenuState extends State {
 		for (int i:str) { str2+=(char)i;}
 		this.but = new UIAnimationButton(handler.getWidth() - (handler.getWidth()/ 8),(handler.getHeight()/0b1100),32, 32 , Images.item, () -> {
 			if(but.getdraw() && !handler.isInMap()) {handler.setMap(handler.getGame().getMap());
-				handler.getGame().getMusicHandler().pauseBackground();
-				handler.getGame().getMusicHandler().play("Megalovania");
-				State.setState(handler.getGame().gameState);}}, this.handler);
+			handler.getGame().getMusicHandler().pauseBackground();
+			handler.getGame().getMusicHandler().play("Megalovania");
+			State.setState(handler.getGame().gameState);}}, this.handler);
 		uiManager.addObjects(new UIImageButton(handler.getWidth()/2-64, handler.getHeight()/2+(handler.getHeight()/8), 128, 64, Images.butstart, () -> {
 			if(!handler.isInMap()) {
 				mode = "Select";
 			}
 		}));
+		
+//		if (Handler.multiplayer && handler.isInMap()) {
+//		if (Handler.multiplayer) {
+//			handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
+//		}
 	}
 
 	@Override
@@ -82,68 +87,151 @@ public class MenuState extends State {
 		if(!creatingMap) {
 			handler.getMouseManager().setUimanager(uiManager);
 			uiManager.tick();
+//			if (State.getState().equals(handler.getGame().gameState) && Handler.multiplayer) {
+//				handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
+//			}
 			if (mode.equals("Select")) {
-				mode = "Selecting";
+				
+				// Single/Multiplayer Selection screen
+				mode = "Mode Selection";
+				Handler.multiplayer = false;
 				uiManager = new UIManager(handler);
 				handler.getMouseManager().setUimanager(uiManager);
 
-				//New Map
-				uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) - (64), 128, 64, "New Map", () -> {
+				// single player select
+				uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) - (64), 128, 64, "Single Player", () -> {
 					if(!handler.isInMap()) {
-						mode = "Menu";
-						initNew("New Map Creator", handler);
-					}
-				}, handler,Color.BLACK));
+						mode = "Selecting";
+						uiManager = new UIManager(handler);
+						handler.getMouseManager().setUimanager(uiManager);
 
-
-				//testMap1
-				uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, handler.getHeight() / 2 + (handler.getHeight() / 10), 128, 64, "Map 1", () -> {
-					if(!handler.isInMap()) {
-						mode = "Menu";
-						handler.setMap(MapBuilder.createMap(Images.testMap, handler));
-						State.setState(handler.getGame().gameState);
-					}
-				}, handler,Color.BLACK));
-
-				//testmap2
-				uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) + (64), 128, 64, "Map 2", () -> {
-					if(!handler.isInMap()) {
-						mode = "Menu";
-						handler.setMap(MapBuilder.createMap(Images.testMaptwo, handler));
-						State.setState(handler.getGame().gameState);
-					}
-				}, handler,Color.BLACK));
-
-				//other
-				uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) + (128), 128, 64, "Other", () -> {
-					if(!handler.isInMap()){
-						mode = "Menu";
-						JFileChooser chooser = new JFileChooser("/maps");
-						FileNameExtensionFilter filter = new FileNameExtensionFilter(
-								"JPG, & PNG Images", "jpg", "png");
-						chooser.setFileFilter(filter);
-						int returnVal = chooser.showOpenDialog(null);
-						if (returnVal == JFileChooser.APPROVE_OPTION) {
-							System.out.println("You chose to open this file: " + chooser.getSelectedFile().getAbsolutePath());
-							try {
-								handler.setMap(MapBuilder.createMap(ImageIO.read(chooser.getSelectedFile()), handler));
-								State.setState(handler.getGame().gameState);
-							} catch (IOException e) {
-								e.printStackTrace();
+						//New Map
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) - (64), 128, 64, "New Map", () -> {
+							if(!handler.isInMap()) {
+								mode = "Menu";
+								initNew("New Map Creator", handler);
 							}
-						}
+						}, handler,Color.BLACK));
+
+						//testMap1
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, handler.getHeight() / 2 + (handler.getHeight() / 10), 128, 64, "Map 1", () -> {
+							if(!handler.isInMap()) {
+								mode = "Menu";
+								handler.setMap(MapBuilder.createMap(Images.testMap, handler));
+								State.setState(handler.getGame().gameState);
+							}
+						}, handler,Color.BLACK));
+
+						//testmap2
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) + (64), 128, 64, "Map 2", () -> {
+							if(!handler.isInMap()) {
+								mode = "Menu";
+								handler.setMap(MapBuilder.createMap(Images.testMaptwo, handler));
+								State.setState(handler.getGame().gameState);
+							}
+						}, handler,Color.BLACK));
+
+						//other
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) + (128), 128, 64, "Other", () -> {
+							if(!handler.isInMap()){
+								mode = "Menu";
+								JFileChooser chooser = new JFileChooser("/maps");
+								FileNameExtensionFilter filter = new FileNameExtensionFilter(
+										"JPG, & PNG Images", "jpg", "png");
+								chooser.setFileFilter(filter);
+								int returnVal = chooser.showOpenDialog(null);
+								if (returnVal == JFileChooser.APPROVE_OPTION) {
+									System.out.println("You chose to open this file: " + chooser.getSelectedFile().getAbsolutePath());
+									try {
+										handler.setMap(MapBuilder.createMap(ImageIO.read(chooser.getSelectedFile()), handler));
+										State.setState(handler.getGame().gameState);
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+								}
+							}
+						}, handler,Color.BLACK));
+						uiManager.addObjects(this.but);
+			
 					}
 				}, handler,Color.BLACK));
-				uiManager.addObjects(this.but);
+
+				// multiplayer select
+				uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, handler.getHeight() / 2 + (handler.getHeight() / 10), 128, 64, "Multiplayer", () -> {
+					if(!handler.isInMap()) {
+						mode = "Selecting";
+						Handler.multiplayer = true;
+						//handler.getGame().display.frame.setLocation(handler.getWidth()/3, handler.getHeight()/4);;
+						handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
+						
+						uiManager = new UIManager(handler);
+						handler.getMouseManager().setUimanager(uiManager);
+
+						//New Map
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) - (64), 128, 64, "New Map", () -> {
+							if(!handler.isInMap()) {
+								mode = "Menu";
+								initNew("New Map Creator", handler);
+							}
+						}, handler,Color.BLACK));
+
+						//testMap1
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, handler.getHeight() / 2 + (handler.getHeight() / 10), 128, 64, "Map 1", () -> {
+							if(!handler.isInMap()) {
+								mode = "Menu";
+								handler.setMap(MapBuilder.createMap(Images.testMap, handler));
+								State.setState(handler.getGame().gameState);
+							}
+						}, handler,Color.BLACK));
+
+						//testmap2
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) + (64), 128, 64, "Map 2", () -> {
+							if(!handler.isInMap()) {
+								mode = "Menu";
+								handler.setMap(MapBuilder.createMap(Images.testMaptwo, handler));
+								State.setState(handler.getGame().gameState);
+							}
+						}, handler,Color.BLACK));
+
+						//other
+						uiManager.addObjects(new UIStringButton(handler.getWidth() / 2 - 64, (handler.getHeight() / 2) + (handler.getHeight() / 10) + (128), 128, 64, "Other", () -> {
+							if(!handler.isInMap()){
+								mode = "Menu";
+								JFileChooser chooser = new JFileChooser("/maps");
+								FileNameExtensionFilter filter = new FileNameExtensionFilter(
+										"JPG, & PNG Images", "jpg", "png");
+								chooser.setFileFilter(filter);
+								int returnVal = chooser.showOpenDialog(null);
+								if (returnVal == JFileChooser.APPROVE_OPTION) {
+									System.out.println("You chose to open this file: " + chooser.getSelectedFile().getAbsolutePath());
+									try {
+										handler.setMap(MapBuilder.createMap(ImageIO.read(chooser.getSelectedFile()), handler));
+										State.setState(handler.getGame().gameState);
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+								}
+							}
+						}, handler,Color.BLACK));
+						uiManager.addObjects(this.but);
+			
+					}
+				}, handler,Color.BLACK));
 			}
+					
 			if (mode.equals("Selecting") && handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE) && (!handler.isInMap())) {
 				mode = "Menu";
+				Handler.multiplayer = false;
 				uiManager = new UIManager(handler);
 				handler.getMouseManager().setUimanager(uiManager);
 				uiManager.addObjects(new UIImageButton(handler.getWidth() / 2 - 64, handler.getHeight() / 2 + (handler.getHeight() / 8), 128, 64, Images.butstart, () -> {
 					mode = "Select";
 				}));
 			}
+
+
+
+
 		}else{
 			handler.getGame().mouseManager=null;
 			tickNewScreen();
@@ -263,7 +351,11 @@ public class MenuState extends State {
 					}
 				}
 			}
-			JOptionPane.showMessageDialog(display.getFrame(), "You cant have a map without at least a Mario and a floor right under him. (1 for Mario)");
+			if (Handler.multiplayer) {
+				JOptionPane.showMessageDialog(display.getFrame(), "You cant have a map without at least a Mario, a Wario and a floor right under them. (1 for Mario, E for Wario)");
+			} else {
+				JOptionPane.showMessageDialog(display.getFrame(), "You cant have a map without at least a Mario and a floor right under him. (1 for Mario)");
+			}
 		}
 		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_H)){
 			JOptionPane.showMessageDialog(display.getFrame(), "Number key <-> Color Mapping: \n" +
@@ -326,44 +418,44 @@ public class MenuState extends State {
 
 	public BufferedImage createImage(int width,int height,Color[][] blocks,String name){
 
-	    // Create buffered image object
-	    BufferedImage img = null;
-	    img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		// Create buffered image object
+		BufferedImage img = null;
+		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
-	    // file object
-	    File f = null;
+		// file object
+		File f = null;
 
-	    // create random values pixel by pixel
-	    for (int y = 0; y < height; y++)
-	    {
-	        for (int x = 0; x < width; x++)
-	        {
-	            if(blocks[x][y]!=null) {
-	                img.setRGB(x, y, blocks[x][y].getRGB());
-	            }else{
-	                img.setRGB(x, y, Color.WHITE.getRGB());
+		// create random values pixel by pixel
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				if(blocks[x][y]!=null) {
+					img.setRGB(x, y, blocks[x][y].getRGB());
+				}else{
+					img.setRGB(x, y, Color.WHITE.getRGB());
 
-	            }
-	        }
-	    }
+				}
+			}
+		}
 
-	    // write image
-	    try
-	    {
-	        String path = getClass().getClassLoader().getResource(".").getPath();
+		// write image
+		try
+		{
+			String path = getClass().getClassLoader().getResource(".").getPath();
 
-	        String path2 = path.substring(0,path.indexOf("/out/"))+"/res/maps/"+name+".png";
-	        path2 = path2.replaceAll("%20"," ");
+			String path2 = path.substring(0,path.indexOf("/out/"))+"/res/maps/"+name+".png";
+			path2 = path2.replaceAll("%20"," ");
 
-	        f = new File(path2);
-	        System.out.println("File saved in: "+path2);
-	        ImageIO.write(img, "png", f);
-	    }
-	    catch(IOException e)
-	    {
-	        System.out.println("Error: " + e);
-	    }
-	    return img;
+			f = new File(path2);
+			System.out.println("File saved in: "+path2);
+			ImageIO.write(img, "png", f);
+		}
+		catch(IOException e)
+		{
+			System.out.println("Error: " + e);
+		}
+		return img;
 	}
 
 }
