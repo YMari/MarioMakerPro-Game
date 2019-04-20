@@ -235,6 +235,11 @@ public class MenuState extends State {
 			display.getCanvas().setCursor(c);
 			colorSelected = MapBuilder.ghost;
 		}
+		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_E)){
+			Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(Images.tint(Images.Cursor,0,1,0), new Point(0, 0), "cursor1");
+			display.getCanvas().setCursor(c);
+			colorSelected = MapBuilder.wario;
+		}
 
 		if(mouseManager.isLeftPressed() && !clicked){
 			int posX =mouseManager.getMouseX()/GridPixelsize;
@@ -272,7 +277,9 @@ public class MenuState extends State {
 					"7 -> Goomba (Brown)\n" +
 					"8 -> Ground Block (Green)\n" +
 					"9 -> Grass Block (Pink)\n" +
-					"Q -> Ghost (Grey)");
+					"Q -> Ghost (Grey)\n" +
+					"E -> Wario (Green)");
+
 		}
 	}
 	public UIAnimationButton getBut() {

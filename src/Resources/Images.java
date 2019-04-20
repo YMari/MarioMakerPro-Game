@@ -22,6 +22,7 @@ public class Images {
     public static BufferedImage[] backgrounds;
     public static BufferedImage[] backgrounds2;
 
+    // player one
     public static BufferedImage[] marioSmallWalkLeft;
     public static BufferedImage[] marioSmallWalkRight;
     public static BufferedImage[] marioSmallJumpLeft;//also store ide sprites like looking up or down
@@ -33,6 +34,21 @@ public class Images {
     public static BufferedImage[] marioBigRunRight;
     public static BufferedImage[] marioBigJumpLeft;//also store ide sprites like looking up or down and left<->right transition
     public static BufferedImage[] marioBigJumpRight;
+    //////////////
+    
+    // player two
+    public static BufferedImage[] warioSmallWalkLeft;
+    public static BufferedImage[] warioSmallWalkRight;
+    public static BufferedImage[] warioSmallJumpLeft;
+    public static BufferedImage[] warioSmallJumpRight;
+
+    public static BufferedImage[] warioBigWalkLeft;
+    public static BufferedImage[] warioBigWalkRight;
+    public static BufferedImage[] warioBigRunLeft;
+    public static BufferedImage[] warioBigRunRight;
+    public static BufferedImage[] warioBigJumpLeft;
+    public static BufferedImage[] warioBigJumpRight;
+    //////////////
     
     public static BufferedImage[] item;
     public static BufferedImage[] enemy;
@@ -76,6 +92,8 @@ public class Images {
     private SpriteSheet goombaSpriteSheet;
     private SpriteSheet SSpriteSheet;
     private SpriteSheet SAttackSpriteSheet;
+    
+    private SpriteSheet playerTwoSpriteSheet;
 
     public Images() {
 
@@ -105,6 +123,16 @@ public class Images {
         marioBigJumpRight = new BufferedImage[5];
         goomba = new BufferedImage[2];
 
+        warioSmallWalkLeft = new BufferedImage[2];
+        warioSmallWalkRight = new BufferedImage[2];
+        warioSmallJumpLeft = new BufferedImage[4];
+        warioSmallJumpRight = new BufferedImage[4];
+        warioBigWalkLeft = new BufferedImage[2];
+        warioBigWalkRight = new BufferedImage[2];
+        warioBigRunLeft = new BufferedImage[2];
+        warioBigRunRight = new BufferedImage[2];
+        warioBigJumpLeft = new BufferedImage[5];
+        warioBigJumpRight = new BufferedImage[5];
 
 
         try {
@@ -120,6 +148,7 @@ public class Images {
             SSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/Sheets/Sheets.png")));
             SAttackSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/Sheets/enemySheet2.png")));
 
+            playerTwoSpriteSheet = new SpriteSheet(ImageIO.read(getClass().getResourceAsStream("/Sheets/warioSNESSheet.png")));
 
             //Images
             title = mainmenuSpriteSheet.crop(16,16,256,224);
@@ -190,6 +219,49 @@ public class Images {
             marioBigJumpRight[2] = playerSpriteSheet.crop(248,196,15,27);//up
             marioBigJumpRight[3] = playerSpriteSheet.crop(287,122,16,15);//down
             marioBigJumpRight[4] = playerSpriteSheet.crop(368,115,16,29);//Change
+            
+            //player two sprites
+            //Small
+            warioSmallWalkLeft[0] = playerTwoSpriteSheet.crop(169,0,14,20);
+            warioSmallWalkLeft[1] = playerTwoSpriteSheet.crop(49,0,15,19);
+
+            warioSmallWalkRight[0] = playerTwoSpriteSheet.crop(209,0,14,20);
+            warioSmallWalkRight[1] = playerTwoSpriteSheet.crop(328,0,15,19);
+
+            warioSmallJumpLeft[0] = playerTwoSpriteSheet.crop(168,39,16,22);
+            warioSmallJumpLeft[1] = playerTwoSpriteSheet.crop(128,40,16,20);
+            warioSmallJumpLeft[2] = playerTwoSpriteSheet.crop(49,39,15,21);//up
+            warioSmallJumpLeft[3] = playerTwoSpriteSheet.crop(89,43,15,14);//down
+
+            warioSmallJumpRight[0] = playerTwoSpriteSheet.crop(208,39,16,22);
+            warioSmallJumpRight[1] = playerTwoSpriteSheet.crop(248,40,16,20);
+            warioSmallJumpRight[2] = playerTwoSpriteSheet.crop(328,39,15,21);//up
+            warioSmallJumpRight[3] = playerTwoSpriteSheet.crop(288,43,15,14);//down
+
+            // Big
+            warioBigWalkLeft[0] = playerTwoSpriteSheet.crop(169,76,15,28);
+            warioBigWalkLeft[1] = playerTwoSpriteSheet.crop(8,76,16,28);
+
+            warioBigWalkRight[0] = playerTwoSpriteSheet.crop(208,76,15,28);
+            warioBigWalkRight[1] = playerTwoSpriteSheet.crop(368,76,16,28);
+
+            warioBigRunLeft[0] = playerTwoSpriteSheet.crop(169,76,15,28);
+            warioBigRunLeft[1] = playerTwoSpriteSheet.crop(48,76,16,27);
+
+            warioBigRunRight[0] = playerTwoSpriteSheet.crop(208,76,15,28);
+            warioBigRunRight[1] = playerTwoSpriteSheet.crop(328,76,16,27);
+
+            warioBigJumpLeft[0] = playerTwoSpriteSheet.crop(168,114,16,31);
+            warioBigJumpLeft[1] = playerTwoSpriteSheet.crop(128,115,16,29);
+            warioBigJumpLeft[2] = playerTwoSpriteSheet.crop(129,196,15,27);//up
+            warioBigJumpLeft[3] = playerTwoSpriteSheet.crop(88,122,16,15);//down
+            warioBigJumpLeft[4] = playerTwoSpriteSheet.crop(8,115,16,29);//change
+
+            warioBigJumpRight[0] = playerTwoSpriteSheet.crop(208,114,16,31);
+            warioBigJumpRight[1] = playerTwoSpriteSheet.crop(248,115,16,29);
+            warioBigJumpRight[2] = playerTwoSpriteSheet.crop(248,196,15,27);//up
+            warioBigJumpRight[3] = playerTwoSpriteSheet.crop(287,122,16,15);//down
+            warioBigJumpRight[4] = playerTwoSpriteSheet.crop(368,115,16,29);//Change
             
             item[0] =  ImageIO.read(getClass().getResourceAsStream("/Sheets/item/SL1.png"));
             item[1] =  ImageIO.read(getClass().getResourceAsStream("/Sheets/item/SL2.png"));

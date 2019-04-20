@@ -42,7 +42,7 @@ public class KeyManager implements KeyListener {
 		right = keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
 
 		pbutt = keys[KeyEvent.VK_ESCAPE];
-		runbutt = keys[KeyEvent.VK_SHIFT];
+		runbutt = keys[KeyEvent.VK_SHIFT] || keys[KeyEvent.VK_SLASH];
 
 	}
 
