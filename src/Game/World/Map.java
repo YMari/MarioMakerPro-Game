@@ -81,6 +81,37 @@ public class Map {
         }
         g2.translate(camLocation.x, camLocation.y);
     }
+    
+    public void drawMap2(Graphics2D gw2) {
+        handler.setIsInMap(true);
+        Point camLocation = new Point((int)handler.getCamera().getX(), (int)handler.getCamera().getY());
+        gw2.translate(-camLocation.x, -camLocation.y);
+        gw2.drawImage(Images.backgrounds2[this.mapBackground], camLocation.x, camLocation.y, this.handler.getWidth(), this.handler.getHeight(),null);
+        for (BaseStaticEntity block:blocksOnMap) {
+            gw2.drawImage(block.sprite,block.x,block.y,block.width,block.height,null);
+        }
+        for (BaseDynamicEntity entity:enemiesOnMap) {
+            if(entity instanceof Item){
+                if(!((Item)entity).used){
+                    gw2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);
+                }
+            }else if(entity instanceof Goomba && !entity.ded){
+                gw2.drawImage(((Goomba)entity).anim.getCurrentFrame(), entity.x, entity.y, entity.width, entity.height, null);
+            }
+            else if(entity instanceof UIPointer ){
+                ((UIPointer) entity).render(gw2);
+            }else {
+                gw2.drawImage(entity.sprite, entity.x, entity.y, entity.width, entity.height, null);
+            }
+        }
+        handler.getWario().drawWario(gw2);
+        if(this.listener != null && MapBuilder.mapDone) {
+            this.listener.render(gw2);
+            this.hand.render(gw2);
+            this.walls.render(gw2);
+        }
+        gw2.translate(camLocation.x, camLocation.y);
+    }
 
     public ArrayList<BaseStaticEntity> getBlocksOnMap() {
         return blocksOnMap;

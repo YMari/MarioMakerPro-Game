@@ -39,7 +39,7 @@ public class GameSetUp implements Runnable {
 	private BufferStrategy bs;
 	private BufferStrategy bs2;
 	private Graphics g;
-	private Graphics gTwo;
+	private Graphics gw;
 	public UIPointer pointer;
 
 	//Input
@@ -93,13 +93,14 @@ public class GameSetUp implements Runnable {
 		State.setState(menuState);
 	}
 
-	private void init2() {
+	public void init2() {
 		display2 = new DisplayScreen(title, handler.width, handler.height);
-		handler.getGame().display2.getFrame().addKeyListener(keyManager);
-		handler.getGame().display2.getFrame().addMouseListener(mouseManager);
-		handler.getGame().display2.getFrame().addMouseMotionListener(mouseManager);
-		handler.getGame().display2.getCanvas().addMouseListener(mouseManager);
-		handler.getGame().display2.getCanvas().addMouseMotionListener(mouseManager);
+		//display2.getFrame2().setVisible(false);
+		display2.getFrame().addKeyListener(keyManager);
+		display2.getFrame().addMouseListener(mouseManager);
+		display2.getFrame().addMouseMotionListener(mouseManager);
+		display2.getCanvas().addMouseListener(mouseManager);
+		display2.getCanvas().addMouseMotionListener(mouseManager);
 
 		Images img = new Images();
 
@@ -130,7 +131,7 @@ public class GameSetUp implements Runnable {
 
 		//initiallizes everything in order to run without breaking
 		init();
-		//init2();
+		//init2();   // not working
 		
 
 		int fps = 60;
@@ -251,21 +252,53 @@ public class GameSetUp implements Runnable {
 		if(State.getState() != null)
 			State.getState().render(g);
 
-//		if (Handler.multiplayer) {
-//			bs2 = display2.getCanvas2().getBufferStrategy();
-//			gTwo = bs2.getDrawGraphics();
-//			gTwo.clearRect(0, 0,  handler.width, handler.height);
-//			Graphics2D gd2 = (Graphics2D) gTwo.create();
-//			if(State.getState() != null)
-//				State.getState().render(gTwo);
-//			bs2.show();
-//			gTwo.dispose();
-//		}
-
-
 		//End Drawing!
 		bs.show();
 		g.dispose();
+		
+//		if (Handler.multiplayer) {
+//			bs2 = display2.getCanvas2().getBufferStrategy();
+//			if(bs2 == null){
+//				display2.getCanvas2().createBufferStrategy(3);
+//				return;
+//			}
+//			gw = bs2.getDrawGraphics();
+//			gw.clearRect(0, 0,  handler.width, handler.height);
+//			Graphics2D gw2 = (Graphics2D) gw.create();
+//			if(State.getState() != null)
+//				State.getState().render(gw);
+//			bs2.show();
+//			gw.dispose();
+//		}
+		
+//		bs = display.getCanvas().getBufferStrategy();
+//		bs2 = display2.getCanvas2().getBufferStrategy();
+//
+//		if(bs == null || bs2 == null){
+//			display.getCanvas().createBufferStrategy(3);
+//			display2.getCanvas2().createBufferStrategy(3);
+//			return;
+//		}
+//		g = bs.getDrawGraphics();
+//		gw = bs2.getDrawGraphics();
+//		//Clear Screen
+//		g.clearRect(0, 0,  handler.width, handler.height);
+//		gw.clearRect(0, 0,  handler.width, handler.height);
+//
+//		//Draw Here!
+//		Graphics2D g2 = (Graphics2D) g.create();
+//		Graphics2D gw2 = (Graphics2D) gw.create();
+//
+//		if(State.getState() != null)
+//			State.getState().render(g);
+//		if(State.getState() != null)
+//			State.getState().render(gw);
+//
+//		//End Drawing!
+//		bs.show();
+//		g.dispose();
+//		bs2.show();
+//		gw.dispose();
 		
 	}
 	public Map getMap() {

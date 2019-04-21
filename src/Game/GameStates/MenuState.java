@@ -165,7 +165,8 @@ public class MenuState extends State {
 						//						new DisplayScreen(handler.getGame().title, handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getHeight());
 						//						DisplayScreen display = new DisplayScreen(handler.getGame().title, handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getHeight());
 						handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
-
+//						handler.getGame().init2();
+						
 						uiManager = new UIManager(handler);
 						handler.getMouseManager().setUimanager(uiManager);
 
