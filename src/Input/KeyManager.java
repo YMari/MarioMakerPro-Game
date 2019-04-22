@@ -11,7 +11,8 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener {
 
 	private boolean[] keys,justPressed,cantPress;
-	public boolean up=false, down=false, left=false, right=false,pbutt=false,runbutt=false;
+	public boolean up=false, down=false, left=false, right=false, pbutt=false, runbutt=false;
+	public boolean upW=false, downW=false, leftW=false, rightW=false, runbuttW=false;
 
 
 	public KeyManager(){
@@ -36,13 +37,20 @@ public class KeyManager implements KeyListener {
 			}
 		}
 
-		up = keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP];
-		down = keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN];
-		left = keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT];
-		right = keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
+		up = keys[KeyEvent.VK_W];
+		down = keys[KeyEvent.VK_S];
+		left = keys[KeyEvent.VK_A];
+		right = keys[KeyEvent.VK_D];
 
 		pbutt = keys[KeyEvent.VK_ESCAPE];
-		runbutt = keys[KeyEvent.VK_SHIFT] || keys[KeyEvent.VK_SLASH];
+		runbutt = keys[KeyEvent.VK_SHIFT];
+		
+		upW =  keys[KeyEvent.VK_UP];
+		downW = keys[KeyEvent.VK_DOWN];
+		leftW = keys[KeyEvent.VK_LEFT];
+		rightW = keys[KeyEvent.VK_RIGHT];
+
+		runbuttW = keys[KeyEvent.VK_SLASH];
 
 	}
 

@@ -32,12 +32,12 @@ public class Wario extends Player{
 	    if(!grabbed) {
             super.tick();
             if (!this.hit) {
-                if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_CONTROL) && !handler.getKeyManager().up && !handler.getKeyManager().down) {
+                if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_CONTROL) && !handler.getKeyManager().upW && !handler.getKeyManager().downW) {
                     this.jump();
                 }
 
-                if (handler.getKeyManager().right && !handler.getKeyManager().up && !handler.getKeyManager().down) {
-                    if (handler.getKeyManager().runbutt) {
+                if (handler.getKeyManager().rightW && !handler.getKeyManager().upW && !handler.getKeyManager().downW) {
+                    if (handler.getKeyManager().runbuttW) {
                         velX = 6;
                         running = true;
                     } else {
@@ -49,8 +49,8 @@ public class Wario extends Player{
                     }
                     facing = "Right";
                     moving = true;
-                } else if (handler.getKeyManager().left && !handler.getKeyManager().up && !handler.getKeyManager().down) {
-                    if (handler.getKeyManager().runbutt) {
+                } else if (handler.getKeyManager().leftW && !handler.getKeyManager().upW && !handler.getKeyManager().downW) {
+                    if (handler.getKeyManager().runbuttW) {
                         velX = -6;
                         running = true;
                     } else {
@@ -89,13 +89,13 @@ public class Wario extends Player{
 	public void drawWario(Graphics2D g2) {
 		if(!grabbed) {
 			if (!isBig) {
-				if (handler.getKeyManager().up) {
+				if (handler.getKeyManager().upW) {
 					if (facing.equals("Left")) {
 						g2.drawImage(Images.warioSmallJumpLeft[2], x, y, width, height, null);
 					} else {
 						g2.drawImage(Images.warioSmallJumpRight[2], x, y, width, height, null);
 					}
-				} else if (handler.getKeyManager().down) {
+				} else if (handler.getKeyManager().downW) {
 					if (facing.equals("Left")) {
 						g2.drawImage(Images.warioSmallJumpLeft[3], x, y, width, height, null);
 					} else {
@@ -130,13 +130,13 @@ public class Wario extends Player{
 				}
 			} else {
 				if (!changeDirrection) {
-					if (handler.getKeyManager().up) {
+					if (handler.getKeyManager().upW) {
 						if (facing.equals("Left")) {
 							g2.drawImage(Images.warioBigJumpLeft[4], x, y, width, height, null);
 						} else {
 							g2.drawImage(Images.warioBigJumpRight[4], x, y, width, height, null);
 						}
-					} else if (handler.getKeyManager().down) {
+					} else if (handler.getKeyManager().downW) {
 						if (facing.equals("Left")) {
 							g2.drawImage(Images.warioBigJumpLeft[3], x, y, width, height, null);
 						} else {

@@ -14,7 +14,7 @@ import Main.Handler;
  * Created by AlexVR on 7/1/2018.
  */
 
-public class DisplayScreen {
+public class DisplayScreen2 {
 
 	public JFrame frame;
 	public Canvas canvas;
@@ -24,7 +24,7 @@ public class DisplayScreen {
 	private String title;
 	private int width, height;
 
-	public DisplayScreen(String title, int width, int height){
+	public DisplayScreen2(String title, int width, int height){
 		this.title = title;
 		this.width = width;
 		this.height = height;
@@ -40,7 +40,7 @@ public class DisplayScreen {
 		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
-		frame.setVisible(true);
+		frame.setVisible(false);   // only visible in multiplayer
 		frame.setBackground(Color.black);
 
 		try {

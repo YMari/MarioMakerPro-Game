@@ -1,6 +1,7 @@
 package Main;
 
 import Display.DisplayScreen;
+import Display.DisplayScreen2;
 import Display.UI.UIPointer;
 import Game.Entities.DynamicEntities.Mario;
 import Game.Entities.DynamicEntities.Player;
@@ -29,7 +30,7 @@ import java.awt.image.BufferStrategy;
 
 public class GameSetUp implements Runnable {
 	public DisplayScreen display;
-	public DisplayScreen display2;   // second screen
+	public DisplayScreen2 display2;
 	public String title;
 
 	private boolean running = false;
@@ -55,8 +56,6 @@ public class GameSetUp implements Runnable {
 	public State menuState;
 	public State pauseState;
 	public State gameOverState; // added
-
-	boolean displayOn = false;
 
 	//Res.music
 	private MusicHandler musicHandler;
@@ -91,27 +90,14 @@ public class GameSetUp implements Runnable {
 		gameOverState = new GameOverState(handler);
 
 		State.setState(menuState);
-	}
-
-	public void init2() {
-		display2 = new DisplayScreen(title, handler.width, handler.height);
-		//display2.getFrame2().setVisible(false);
+		
+		// multiplayer display, invisible until multiplayer is true
+		display2 = new DisplayScreen2(title, handler.width, handler.height);
 		display2.getFrame().addKeyListener(keyManager);
 		display2.getFrame().addMouseListener(mouseManager);
 		display2.getFrame().addMouseMotionListener(mouseManager);
 		display2.getCanvas().addMouseListener(mouseManager);
 		display2.getCanvas().addMouseMotionListener(mouseManager);
-
-		Images img = new Images();
-
-		musicHandler.restartBackground();
-
-		gameState = new GameState(handler);
-		menuState = new MenuState(handler);
-		pauseState = new PauseState(handler);
-		gameOverState = new GameOverState(handler);
-
-		State.setState(menuState);
 	}
 
 	public void reStart(){
@@ -180,7 +166,7 @@ public class GameSetUp implements Runnable {
 			State.getState().tick();
 		if (handler.isInMap()) {
 			updateCamera();
-			//updateCamera2();
+			updateCamera2();
 		}
 
 	}
@@ -235,9 +221,9 @@ public class GameSetUp implements Runnable {
 	}
 
 
-	private void render(){
+	private void render(){	
 		bs = display.getCanvas().getBufferStrategy();
-
+		
 		if(bs == null){
 			display.getCanvas().createBufferStrategy(3);
 			return;
@@ -256,50 +242,21 @@ public class GameSetUp implements Runnable {
 		bs.show();
 		g.dispose();
 		
-//		if (Handler.multiplayer) {
-//			bs2 = display2.getCanvas2().getBufferStrategy();
-//			if(bs2 == null){
-//				display2.getCanvas2().createBufferStrategy(3);
-//				return;
-//			}
-//			gw = bs2.getDrawGraphics();
-//			gw.clearRect(0, 0,  handler.width, handler.height);
-//			Graphics2D gw2 = (Graphics2D) gw.create();
-//			if(State.getState() != null)
-//				State.getState().render(gw);
-//			bs2.show();
-//			gw.dispose();
-//		}
-		
-//		bs = display.getCanvas().getBufferStrategy();
-//		bs2 = display2.getCanvas2().getBufferStrategy();
-//
-//		if(bs == null || bs2 == null){
-//			display.getCanvas().createBufferStrategy(3);
-//			display2.getCanvas2().createBufferStrategy(3);
-//			return;
-//		}
-//		g = bs.getDrawGraphics();
-//		gw = bs2.getDrawGraphics();
-//		//Clear Screen
-//		g.clearRect(0, 0,  handler.width, handler.height);
-//		gw.clearRect(0, 0,  handler.width, handler.height);
-//
-//		//Draw Here!
-//		Graphics2D g2 = (Graphics2D) g.create();
-//		Graphics2D gw2 = (Graphics2D) gw.create();
-//
-//		if(State.getState() != null)
-//			State.getState().render(g);
-//		if(State.getState() != null)
-//			State.getState().render(gw);
-//
-//		//End Drawing!
-//		bs.show();
-//		g.dispose();
-//		bs2.show();
-//		gw.dispose();
-		
+		bs2 = display2.getCanvas().getBufferStrategy();
+		if(bs2 == null){
+			display2.getCanvas().createBufferStrategy(3);
+			return;
+		}
+		gw = bs2.getDrawGraphics();
+		gw.clearRect(0, 0,  handler.width, handler.height);
+		Graphics2D gw2 = (Graphics2D) gw.create();
+		if(State.getState() != null)
+			State.getState().render(gw2);
+		bs2.show();
+		gw.dispose();
+		if (Handler.multiplayer && State.getState() instanceof GameState) {
+			handler.getMap().drawMap2(gw2);
+		}
 	}
 	public Map getMap() {
 		Map map = new Map(this.handler);

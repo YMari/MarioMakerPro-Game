@@ -2,6 +2,7 @@ package Game.GameStates;
 
 
 import Display.DisplayScreen;
+import Display.DisplayScreen2;
 import Display.UI.UIStringButton;
 import Game.World.MapBuilder;
 import Input.KeyManager;
@@ -34,6 +35,7 @@ public class MenuState extends State {
 	private String mode= "Menu";
 
 	private DisplayScreen display;
+	public DisplayScreen2 display2;
 	private int[] str={83,117,98,32,116,111,32,80,101,119,100,115};
 	private String str2="";
 
@@ -162,10 +164,8 @@ public class MenuState extends State {
 					if(!handler.isInMap()) {
 						mode = "Selecting";
 						Handler.multiplayer = true;
-						//						new DisplayScreen(handler.getGame().title, handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getHeight());
-						//						DisplayScreen display = new DisplayScreen(handler.getGame().title, handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getHeight());
-						handler.getGame().display.frame2.setVisible(true);  //show the second jframe when multiplayer and map is chosen
-//						handler.getGame().init2();
+						handler.getGame().display2.getFrame().setVisible(true);
+						handler.getGame().display2.getFrame().setLocation(handler.getGame().display.frame.getX() + handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getY());
 						
 						uiManager = new UIManager(handler);
 						handler.getMouseManager().setUimanager(uiManager);

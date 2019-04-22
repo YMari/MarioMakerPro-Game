@@ -28,8 +28,10 @@ public class Handler {
     private Wario wario;
     private Map map;
     private boolean marioInMap =false;
+    private boolean warioInMap = false;
 
     private Camera camera;
+    private Camera camera2;
 
 
     public Handler(){
@@ -96,8 +98,16 @@ public class Handler {
     public Camera getCamera() {
         return camera;
     }
+    
+    public Camera getCamera2() {
+    	return camera2;
+    }
 
     public void setCamera(Camera camera) {
         this.camera = camera;
+    }
+    
+    public void setCamera2(Camera camera2) {
+    	this.camera2 = camera2;
     }
 }
