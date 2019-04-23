@@ -51,9 +51,9 @@ public class Map {
 		}
 		else if(entity instanceof Wario){
 			handler.setWario((Wario) entity);
-			handler.getCamera().setX(handler.getMario().x - (MapBuilder.pixelMultiplier*6));  //can't seem to change camera
-			handler.getCamera().setY(handler.getMario().y - (MapBuilder.pixelMultiplier*10));
-			bottomBorder = handler.getHeight()+handler.getMario().y;
+			handler.getCamera2().setX(handler.getWario().x - (MapBuilder.pixelMultiplier*6));  //can't seem to change camera
+			handler.getCamera2().setY(handler.getWario().y - (MapBuilder.pixelMultiplier*10));
+			bottomBorder = handler.getHeight()+handler.getWario().y;
 
 		}
 		else {
@@ -101,7 +101,7 @@ public class Map {
 
 	public void drawMap2(Graphics2D g2) {
 		//handler.setIsInMap(true); // if we set it to handler.setIsInMap2(true);, mario and wario are drawn at the same time :(
-		Point camLocation = new Point((int)handler.getCamera().getX(), (int)handler.getCamera().getY()); //update cam
+		Point camLocation = new Point((int)handler.getCamera2().getX(), (int)handler.getCamera2().getY()); //update cam
 		g2.translate(-camLocation.x, -camLocation.y);
 		g2.drawImage(Images.backgrounds2[this.mapBackground], camLocation.x, camLocation.y, this.handler.getWidth(), this.handler.getHeight(),null);
 		for (BaseStaticEntity block:blocksOnMap) {

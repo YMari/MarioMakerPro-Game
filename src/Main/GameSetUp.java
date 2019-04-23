@@ -3,6 +3,7 @@ package Main;
 import Display.DisplayScreen;
 import Display.DisplayScreen2;
 import Display.UI.UIPointer;
+import Game.Entities.DynamicEntities.BaseDynamicEntity;
 import Game.Entities.DynamicEntities.Mario;
 import Game.Entities.DynamicEntities.Player;
 import Game.Entities.DynamicEntities.Wario;
@@ -22,6 +23,7 @@ import Resources.MusicHandler;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
 
 
 /**
@@ -70,9 +72,9 @@ public class GameSetUp implements Runnable {
 		initialmouseManager = mouseManager;
 		musicHandler = new MusicHandler(handler);
 		handler.setCamera(new Camera());
-//		if(Handler.multiplayer) {   // testing
-//			handler.setCamera2(new Camera());
-//		}
+
+		handler.setCamera2(new Camera());
+
 	}
 
 	private void init(){
@@ -167,16 +169,16 @@ public class GameSetUp implements Runnable {
 			State.getState().tick();
 		if (handler.isInMap()) {
 			updateCamera();
-//			if (Handler.multiplayer) {
-//				updateCamera2();
-//			}
+			if (Handler.multiplayer) {
+				updateCamera2();
+			}
 		}
 
 	}
 
 	private void updateCamera() {
 
-		// player 1
+		// player 1		
 		Player mario = handler.getMario();
 		double marioVelocityX = mario.getVelX();
 		double marioVelocityY = mario.getVelY();
@@ -196,34 +198,11 @@ public class GameSetUp implements Runnable {
 			shiftAmountY = -marioVelocityY;
 		}
 		handler.getCamera().moveCam(shiftAmount,shiftAmountY);
-		
-//		if(Handler.multiplayer) {
-//			Player wario = handler.getWario();
-//			double warioVelocityX = wario.getVelX();
-//			double warioVelocityY = wario.getVelY();
-//			double shiftAmount2 = 0;
-//			double shiftAmountY2 = 0;
-//
-//			if (warioVelocityX > 0 && wario.getX() - 2*(handler.getWidth()/3) > handler.getCamera2().getX()) {
-//				shiftAmount2 = warioVelocityX;
-//			}
-//			if (warioVelocityX < 0 && wario.getX() +  2*(handler.getWidth()/3) < handler.getCamera2().getX()+handler.width) {
-//				shiftAmount2 = warioVelocityX;
-//			}
-//			if (warioVelocityY > 0 && wario.getY() - 2*(handler.getHeight()/3) > handler.getCamera2().getY()) {
-//				shiftAmountY2 = warioVelocityY;
-//			}
-//			if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera2().getY()+handler.height) {
-//				shiftAmountY2 = -warioVelocityY;
-//			}
-//			handler.getCamera().moveCam(shiftAmount,shiftAmountY);
-//		}
 	}
 
 	private void updateCamera2() {
 		
 		// player 2
-		//handler.setCamera2(new Camera()); // still testing
 		Player wario = handler.getWario();
 		double warioVelocityX = wario.getVelX();
 		double warioVelocityY = wario.getVelY();
@@ -242,7 +221,7 @@ public class GameSetUp implements Runnable {
 		if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera2().getY()+handler.height) {
 			shiftAmountY2 = -warioVelocityY;
 		}
-		handler.getCamera().moveCam(shiftAmount2,shiftAmountY2);
+		handler.getCamera2().moveCam(shiftAmount2,shiftAmountY2);
 	}
 
 
