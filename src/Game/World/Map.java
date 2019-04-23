@@ -49,11 +49,11 @@ public class Map {
 			handler.getCamera().setY(handler.getMario().y - (MapBuilder.pixelMultiplier*10));
 			bottomBorder = handler.getHeight()+handler.getMario().y;
 		}
-		else if(entity instanceof Wario){   //this is where it breaks, confirmed in ModeBranch2.0 :(, this disables player 2
+		else if(entity instanceof Wario){
 			handler.setWario((Wario) entity);
-			handler.getCamera().setX(handler.getWario().x - (MapBuilder.pixelMultiplier*6));  //can't change camera
-			handler.getCamera().setY(handler.getWario().y - (MapBuilder.pixelMultiplier*10));
-			bottomBorder2 = handler.getHeight()+handler.getWario().y;
+			handler.getCamera().setX(handler.getMario().x - (MapBuilder.pixelMultiplier*6));  //can't seem to change camera
+			handler.getCamera().setY(handler.getMario().y - (MapBuilder.pixelMultiplier*10));
+			bottomBorder = handler.getHeight()+handler.getMario().y;
 
 		}
 		else {

@@ -28,6 +28,7 @@ public class GameState extends State {
             State.setState(handler.getGame().pauseState);
         }
         handler.getMario().tick();
+        handler.getWario().tick();
         if(handler.getMap().getListener() != null && MapBuilder.mapDone) {
         	handler.getMap().getListener().tick();
         	handler.getMap().getHand().tick();

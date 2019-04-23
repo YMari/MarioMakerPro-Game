@@ -167,9 +167,9 @@ public class GameSetUp implements Runnable {
 			State.getState().tick();
 		if (handler.isInMap()) {
 			updateCamera();
-			if (Handler.multiplayer) {
-				updateCamera2();
-			}
+//			if (Handler.multiplayer) {
+//				updateCamera2();
+//			}
 		}
 
 	}
