@@ -37,19 +37,26 @@ public class KeyManager implements KeyListener {
 			}
 		}
 
+//		up = keys[KeyEvent.VK_W] || keys[KeyEvent.VK_UP];
+//		down = keys[KeyEvent.VK_S] || keys[KeyEvent.VK_DOWN];
+//		left = keys[KeyEvent.VK_A] || keys[KeyEvent.VK_LEFT];
+//		right = keys[KeyEvent.VK_D] || keys[KeyEvent.VK_RIGHT];
+//
+//		pbutt = keys[KeyEvent.VK_ESCAPE];
+//		runbutt = keys[KeyEvent.VK_SHIFT] || keys[KeyEvent.VK_SLASH];
+		
 		up = keys[KeyEvent.VK_W];
 		down = keys[KeyEvent.VK_S];
 		left = keys[KeyEvent.VK_A];
 		right = keys[KeyEvent.VK_D];
-
-		pbutt = keys[KeyEvent.VK_ESCAPE];
 		runbutt = keys[KeyEvent.VK_SHIFT];
+		
+		pbutt = keys[KeyEvent.VK_ESCAPE];
 		
 		upW =  keys[KeyEvent.VK_UP];
 		downW = keys[KeyEvent.VK_DOWN];
 		leftW = keys[KeyEvent.VK_LEFT];
 		rightW = keys[KeyEvent.VK_RIGHT];
-
 		runbuttW = keys[KeyEvent.VK_SLASH];
 
 	}

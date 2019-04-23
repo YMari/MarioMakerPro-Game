@@ -110,7 +110,7 @@ public class Player extends BaseDynamicEntity {
 
 		for (BaseDynamicEntity enemy : enemies) {
 			Rectangle enemyTopBounds = enemy.getTopBounds();
-			if (marioBottomBounds.intersects(enemyTopBounds) && !(enemy instanceof Item) && !(enemy instanceof Ghost)) {
+			if (marioBottomBounds.intersects(enemyTopBounds) && !(enemy instanceof Player) && !(enemy instanceof Item) && !(enemy instanceof Ghost)) {
 				if(!enemy.ded) {
 					handler.getGame().getMusicHandler().playStomp();
 				}

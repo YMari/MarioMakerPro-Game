@@ -70,6 +70,9 @@ public class GameSetUp implements Runnable {
 		initialmouseManager = mouseManager;
 		musicHandler = new MusicHandler(handler);
 		handler.setCamera(new Camera());
+//		if(Handler.multiplayer) {   // testing
+//			handler.setCamera2(new Camera());
+//		}
 	}
 
 	private void init(){
@@ -90,7 +93,7 @@ public class GameSetUp implements Runnable {
 		gameOverState = new GameOverState(handler);
 
 		State.setState(menuState);
-		
+
 		// multiplayer display, invisible until multiplayer is true
 		display2 = new DisplayScreen2(title, handler.width, handler.height);
 		display2.getFrame().addKeyListener(keyManager);
@@ -117,8 +120,6 @@ public class GameSetUp implements Runnable {
 
 		//initiallizes everything in order to run without breaking
 		init();
-		//init2();   // not working
-		
 
 		int fps = 60;
 		double timePerTick = 1000000000 / fps;
@@ -166,7 +167,9 @@ public class GameSetUp implements Runnable {
 			State.getState().tick();
 		if (handler.isInMap()) {
 			updateCamera();
-			updateCamera2();
+			if (Handler.multiplayer) {
+				updateCamera2();
+			}
 		}
 
 	}
@@ -193,37 +196,59 @@ public class GameSetUp implements Runnable {
 			shiftAmountY = -marioVelocityY;
 		}
 		handler.getCamera().moveCam(shiftAmount,shiftAmountY);
+		
+//		if(Handler.multiplayer) {
+//			Player wario = handler.getWario();
+//			double warioVelocityX = wario.getVelX();
+//			double warioVelocityY = wario.getVelY();
+//			double shiftAmount2 = 0;
+//			double shiftAmountY2 = 0;
+//
+//			if (warioVelocityX > 0 && wario.getX() - 2*(handler.getWidth()/3) > handler.getCamera2().getX()) {
+//				shiftAmount2 = warioVelocityX;
+//			}
+//			if (warioVelocityX < 0 && wario.getX() +  2*(handler.getWidth()/3) < handler.getCamera2().getX()+handler.width) {
+//				shiftAmount2 = warioVelocityX;
+//			}
+//			if (warioVelocityY > 0 && wario.getY() - 2*(handler.getHeight()/3) > handler.getCamera2().getY()) {
+//				shiftAmountY2 = warioVelocityY;
+//			}
+//			if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera2().getY()+handler.height) {
+//				shiftAmountY2 = -warioVelocityY;
+//			}
+//			handler.getCamera().moveCam(shiftAmount,shiftAmountY);
+//		}
 	}
-	
-	private void updateCamera2() {
-		// player 2
-		if (Handler.multiplayer) {
-			Player wario = handler.getWario();
-			double warioVelocityX = wario.getVelX();
-			double warioVelocityY = wario.getVelY();
-			double shiftAmount2 = 0;
-			double shiftAmountY2 = 0;
 
-			if (warioVelocityX > 0 && wario.getX() - 2*(handler.getWidth()/3) > handler.getCamera().getX()) {
-				shiftAmount2 = warioVelocityX;
-			}
-			if (warioVelocityX < 0 && wario.getX() +  2*(handler.getWidth()/3) < handler.getCamera().getX()+handler.width) {
-				shiftAmount2 = warioVelocityX;
-			}
-			if (warioVelocityY > 0 && wario.getY() - 2*(handler.getHeight()/3) > handler.getCamera().getY()) {
-				shiftAmountY2 = warioVelocityY;
-			}
-			if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera().getY()+handler.height) {
-				shiftAmountY2 = -warioVelocityY;
-			}
-			handler.getCamera().moveCam(shiftAmount2,shiftAmountY2);
+	private void updateCamera2() {
+		
+		// player 2
+		//handler.setCamera2(new Camera()); // still testing
+		Player wario = handler.getWario();
+		double warioVelocityX = wario.getVelX();
+		double warioVelocityY = wario.getVelY();
+		double shiftAmount2 = 0;
+		double shiftAmountY2 = 0;
+
+		if (warioVelocityX > 0 && wario.getX() - 2*(handler.getWidth()/3) > handler.getCamera2().getX()) {
+			shiftAmount2 = warioVelocityX;
 		}
+		if (warioVelocityX < 0 && wario.getX() +  2*(handler.getWidth()/3) < handler.getCamera2().getX()+handler.width) {
+			shiftAmount2 = warioVelocityX;
+		}
+		if (warioVelocityY > 0 && wario.getY() - 2*(handler.getHeight()/3) > handler.getCamera2().getY()) {
+			shiftAmountY2 = warioVelocityY;
+		}
+		if (warioVelocityX < 0 && wario.getY() +  2*(handler.getHeight()/3) < handler.getCamera2().getY()+handler.height) {
+			shiftAmountY2 = -warioVelocityY;
+		}
+		handler.getCamera().moveCam(shiftAmount2,shiftAmountY2);
 	}
 
 
 	private void render(){	
 		bs = display.getCanvas().getBufferStrategy();
-		
+
 		if(bs == null){
 			display.getCanvas().createBufferStrategy(3);
 			return;
@@ -241,21 +266,25 @@ public class GameSetUp implements Runnable {
 		//End Drawing!
 		bs.show();
 		g.dispose();
-		
-		bs2 = display2.getCanvas().getBufferStrategy();
-		if(bs2 == null){
-			display2.getCanvas().createBufferStrategy(3);
-			return;
+
+		// second display drawing
+		if (Handler.multiplayer) {
+			bs2 = display2.getCanvas().getBufferStrategy();
+			if(bs2 == null){
+				display2.getCanvas().createBufferStrategy(3);
+				return;
+			}
+			gw = bs2.getDrawGraphics();
+			gw.clearRect(0, 0,  handler.width, handler.height);
+			Graphics2D gw2 = (Graphics2D) gw.create();
+			if(State.getState() != null)
+				State.getState().render(gw2);
+			if (State.getState() instanceof GameState) {
+				handler.getMap().drawMap2(gw2);
 		}
-		gw = bs2.getDrawGraphics();
-		gw.clearRect(0, 0,  handler.width, handler.height);
-		Graphics2D gw2 = (Graphics2D) gw.create();
-		if(State.getState() != null)
-			State.getState().render(gw2);
-		bs2.show();
-		gw.dispose();
-		if (Handler.multiplayer && State.getState() instanceof GameState) {
-			handler.getMap().drawMap2(gw2);
+			bs2.show();
+			gw.dispose();
+
 		}
 	}
 	public Map getMap() {
@@ -265,14 +294,13 @@ public class GameSetUp implements Runnable {
 			map.addBlock(new BreakBlock(0, i*MapBuilder.pixelMultiplier, 48,48, this.handler));
 			map.addBlock(new BreakBlock(30*MapBuilder.pixelMultiplier, i*MapBuilder.pixelMultiplier, 48,48, this.handler));
 		}
+		
 		Mario mario = new Mario(24 * MapBuilder.pixelMultiplier, 196 * MapBuilder.pixelMultiplier, 48,48, this.handler);
+		Wario wario = new Wario(24 * MapBuilder.pixelMultiplier, 196 * MapBuilder.pixelMultiplier, 48,48, this.handler); //player two
+		
 		map.addEnemy(mario);
+		map.addEnemy(wario); //player two
 		map.addEnemy(pointer);
-		if (Handler.multiplayer) {
-			Wario wario = new Wario(24 * MapBuilder.pixelMultiplier, 196 * MapBuilder.pixelMultiplier, 48,48, this.handler);
-			map.addEnemy(wario);
-			map.addEnemy(pointer);
-		}
 		threadB=true;
 		return map;
 	}

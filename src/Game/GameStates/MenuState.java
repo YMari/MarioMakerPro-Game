@@ -35,7 +35,7 @@ public class MenuState extends State {
 	private String mode= "Menu";
 
 	private DisplayScreen display;
-	public DisplayScreen2 display2;
+	//public DisplayScreen2 display2;
 	private int[] str={83,117,98,32,116,111,32,80,101,119,100,115};
 	private String str2="";
 
@@ -164,6 +164,7 @@ public class MenuState extends State {
 					if(!handler.isInMap()) {
 						mode = "Selecting";
 						Handler.multiplayer = true;
+						handler.getGame().display.getFrame().setLocation(handler.getWidth()/2, handler.getHeight()/5);
 						handler.getGame().display2.getFrame().setVisible(true);
 						handler.getGame().display2.getFrame().setLocation(handler.getGame().display.frame.getX() + handler.getGame().display.frame.getWidth(), handler.getGame().display.frame.getY());
 						

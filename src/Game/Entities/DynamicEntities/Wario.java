@@ -85,7 +85,7 @@ public class Wario extends Player{
             }
         }
 	}
-
+	
 	public void drawWario(Graphics2D g2) {
 		if(!grabbed) {
 			if (!isBig) {
