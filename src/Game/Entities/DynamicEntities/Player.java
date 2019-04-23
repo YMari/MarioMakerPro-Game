@@ -119,15 +119,11 @@ public class Player extends BaseDynamicEntity {
 				velY=0;
 
 			}
-//			if (marioBottomBounds.intersects(enemyTopBounds) && (enemy instanceof Ghost)){
-//				marioDies = true;
-//				break;
-//			}
-			
-			if (marioBottomBounds.intersects(enemyTopBounds) && (enemy instanceof Player)&& (enemy instanceof Ghost)){ // testing stuff
+			if (marioBottomBounds.intersects(enemyTopBounds) && (enemy instanceof Ghost)){
 				marioDies = true;
 				break;
 			}
+			
 		}
 		if (marioDies) {
 			handler.getGame().getMusicHandler().pauseBackground();
