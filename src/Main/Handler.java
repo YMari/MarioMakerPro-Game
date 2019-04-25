@@ -30,7 +30,6 @@ public class Handler {
     private Map map;
     private boolean marioInMap =false;
     private boolean warioInMap = false; //unused
-    private Flag flag;
 
     private Camera camera;
     private Camera camera2;
@@ -50,10 +49,6 @@ public class Handler {
     public int getHeight(){
         return height;
     }
-    
-//    public Rectangle getFlagBounds() {
-//    	return flag.getBounds();
-//    }
 
     public GameSetUp getGame() {
         return game;

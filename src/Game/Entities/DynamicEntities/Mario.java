@@ -16,7 +16,6 @@ public class Mario extends Player{
 
 	private boolean hit = false;
 	public boolean grabbed =false;
-	public static boolean marioWin = false;
 
 	public Mario(int x, int y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler, Images.marioSmallWalkRight[0]

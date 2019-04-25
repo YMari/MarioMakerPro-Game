@@ -26,7 +26,7 @@ public class Player extends BaseDynamicEntity {
 	public boolean doubleJumping = false; // double jump for player one
 	public boolean dJumpLock = false; // to avoid spamming double jump
 	
-	public static BaseDynamicEntity winPlayer;
+	public static BaseDynamicEntity winPlayer; // what player won
 	public static boolean win = false;
 	
 	int changeDirectionCounter = 0;
@@ -106,8 +106,9 @@ public class Player extends BaseDynamicEntity {
 
 		for (BaseStaticEntity brick : bricks) {
 			Rectangle brickTopBounds = brick.getTopBounds();
-			if (brick instanceof Flag && marioBottomBounds.intersects(brick.getTopBounds())) {
-				winPlayer = this;
+			
+			if (brick instanceof Flag && marioBottomBounds.intersects(brick.getTopBounds())) { //win condition
+				winPlayer = this; // gets the player that won
 				win = true;
 				State.setState(handler.getGame().winState);
 			}
@@ -173,8 +174,9 @@ public class Player extends BaseDynamicEntity {
 
 		for (BaseStaticEntity brick : bricks) {
 			Rectangle brickBounds = !toRight ? brick.getRightBounds() : brick.getLeftBounds();
-			if (brick instanceof Flag && marioBounds.intersects(brickBounds)) {
-				winPlayer = this;
+			
+			if (brick instanceof Flag && marioBounds.intersects(brickBounds)) { //win condition
+				winPlayer = this; //gets the player that won
 				win = true;
 				State.setState(handler.getGame().winState);
 			}
