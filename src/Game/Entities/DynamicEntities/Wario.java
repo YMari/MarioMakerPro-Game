@@ -6,11 +6,17 @@ import Resources.Images;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+import Game.Entities.StaticEntities.BaseStaticEntity;
+import Game.Entities.StaticEntities.Flag;
+import Game.GameStates.State;
 
 public class Wario extends Player{
 
 	private boolean hit = false;
 	public boolean grabbed =false;
+	public static boolean warioWin = false;
 
 	public Wario(int x, int y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler, Images.warioSmallWalkRight[0]

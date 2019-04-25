@@ -42,9 +42,9 @@ public class GameOverState extends State {
 	public void tick() {
 		handler.getMouseManager().setUimanager(uiManager);
 		uiManager.tick();
-		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)){
-			State.setState(handler.getGame().gameState);
-		}
+//		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_ESCAPE)){
+//			State.setState(handler.getGame().gameState);
+//		}
 	}
 
 	@Override

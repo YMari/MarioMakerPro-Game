@@ -6,11 +6,17 @@ import Resources.Images;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+
+import Game.Entities.StaticEntities.BaseStaticEntity;
+import Game.Entities.StaticEntities.Flag;
+import Game.GameStates.State;
 
 public class Mario extends Player{
 
 	private boolean hit = false;
 	public boolean grabbed =false;
+	public static boolean marioWin = false;
 
 	public Mario(int x, int y, int width, int height, Handler handler) {
 		super(x, y, width, height, handler, Images.marioSmallWalkRight[0]
@@ -29,9 +35,6 @@ public class Mario extends Player{
 
 	@Override
 	public void tick(){
-
-
-
 		if(!grabbed) {
 			super.tick();
 			if (!this.hit) {

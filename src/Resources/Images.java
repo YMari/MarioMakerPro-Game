@@ -69,6 +69,7 @@ public class Images {
     public static BufferedImage title;
     public static BufferedImage Pause;
     public static BufferedImage GameOver; // game over background
+    public static BufferedImage WinScreen; // win screen background
     public static BufferedImage Cursor;
 
     public static BufferedImage testMap;
@@ -83,6 +84,7 @@ public class Images {
     public static BufferedImage groundBlock; // new block
     public static BufferedImage grassBlock; // new block 2
     public static BufferedImage ghost; // new enemy
+    public static BufferedImage flag; // new flag/finish line
 
     private SpriteSheet mainmenuSpriteSheet;
     private SpriteSheet backgroundSpriteSheet;
@@ -154,6 +156,7 @@ public class Images {
             title = mainmenuSpriteSheet.crop(16,16,256,224);
             Pause = ImageIO.read(getClass().getResourceAsStream("/Sheets/Pause.png"));
             GameOver = ImageIO.read(getClass().getResourceAsStream("/Sheets/GameOver.png"));
+            WinScreen = ImageIO.read(getClass().getResourceAsStream("/Sheets/WinScreen.png"));
             Cursor = ImageIO.read(getClass().getResourceAsStream("/Sheets/cursor.png"));
             butstart[0]= ImageIO.read(getClass().getResourceAsStream("/Buttons/NormBut.png"));//normbut
             butstart[1]= ImageIO.read(getClass().getResourceAsStream("/Buttons/HoverBut.png"));//hoverbut
@@ -387,6 +390,7 @@ public class Images {
             goomba[1]= goombaSpriteSheet.crop(329,40,162,162);
             goombaDies=goombaSpriteSheet.crop(539,100,162,81);
             ghost = ImageIO.read(getClass().getResourceAsStream("/Sheets/ghost.png")); // new enemy
+            flag = ImageIO.read(getClass().getResourceAsStream("/Sheets/FinishLineFlag.png")); // new flag
 
 
         }catch (IOException e) {

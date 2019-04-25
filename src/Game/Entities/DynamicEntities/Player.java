@@ -3,6 +3,7 @@ package Game.Entities.DynamicEntities;
 import Game.Entities.EntityBase;
 import Game.Entities.StaticEntities.BaseStaticEntity;
 import Game.Entities.StaticEntities.BoundBlock;
+import Game.Entities.StaticEntities.Flag;
 import Game.GameStates.State;
 import Main.Handler;
 import Resources.Animation;
@@ -24,6 +25,9 @@ public class Player extends BaseDynamicEntity {
 	
 	public boolean doubleJumping = false; // double jump for player one
 	public boolean dJumpLock = false; // to avoid spamming double jump
+	
+	public static BaseDynamicEntity winPlayer;
+	public static boolean win = false;
 	
 	int changeDirectionCounter = 0;
 
@@ -102,6 +106,11 @@ public class Player extends BaseDynamicEntity {
 
 		for (BaseStaticEntity brick : bricks) {
 			Rectangle brickTopBounds = brick.getTopBounds();
+			if (brick instanceof Flag && marioBottomBounds.intersects(brick.getTopBounds())) {
+				winPlayer = this;
+				win = true;
+				State.setState(handler.getGame().winState);
+			}
 			if (brick instanceof BoundBlock && marioBottomBounds.intersects(brick.getTopBounds())) {
 				marioDies = true;
 				break;
@@ -164,6 +173,12 @@ public class Player extends BaseDynamicEntity {
 
 		for (BaseStaticEntity brick : bricks) {
 			Rectangle brickBounds = !toRight ? brick.getRightBounds() : brick.getLeftBounds();
+			if (brick instanceof Flag && marioBounds.intersects(brickBounds)) {
+				winPlayer = this;
+				win = true;
+				State.setState(handler.getGame().winState);
+			}
+			
 			if (brick instanceof BoundBlock && marioBounds.intersects(brickBounds)) {
 				marioDies = true;
 				break;

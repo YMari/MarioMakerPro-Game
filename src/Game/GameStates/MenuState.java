@@ -334,6 +334,11 @@ public class MenuState extends State {
 				colorSelected = MapBuilder.wario;
 			}
 		}
+		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_R)){
+			Cursor c = Toolkit.getDefaultToolkit().createCustomCursor(Images.tint(Images.Cursor,1,0,1), new Point(0, 0), "cursor1");
+			display.getCanvas().setCursor(c);
+			colorSelected = MapBuilder.flag;
+		}
 
 		if(mouseManager.isLeftPressed() && !clicked){
 			int posX =mouseManager.getMouseX()/GridPixelsize;
@@ -358,9 +363,9 @@ public class MenuState extends State {
 				}
 			}
 			if (Handler.multiplayer) {
-				JOptionPane.showMessageDialog(display.getFrame(), "You cant have a map without at least a Mario, a Wario and a floor right under them. (1 for Mario, E for Wario)");
+				JOptionPane.showMessageDialog(display.getFrame(), "You cant have a map without at least a Flag, a Mario, a Wario and a floor right under them. (1 for Mario, E for Wario)");
 			} else {
-				JOptionPane.showMessageDialog(display.getFrame(), "You cant have a map without at least a Mario and a floor right under him. (1 for Mario)");
+				JOptionPane.showMessageDialog(display.getFrame(), "You cant have a map without at least a Flag, a Mario and a floor right under him. (1 for Mario)");
 			}
 		}
 		if(handler.getKeyManager().keyJustPressed(KeyEvent.VK_H)){
@@ -377,7 +382,8 @@ public class MenuState extends State {
 						"8 -> Ground Block (Green)\n" +
 						"9 -> Grass Block (Pink)\n" +
 						"Q -> Ghost (Grey)\n" +
-						"E -> Wario (Cyan)");
+						"E -> Wario (Cyan)\n" +
+						"R -> Flag (Purple)");
 			}
 			else {
 				JOptionPane.showMessageDialog(display.getFrame(), "Number key <-> Color Mapping: \n" +
@@ -391,7 +397,8 @@ public class MenuState extends State {
 						"7 -> Goomba (Brown)\n" +
 						"8 -> Ground Block (Green)\n" +
 						"9 -> Grass Block (Pink)\n" +
-						"Q -> Ghost (Grey)");
+						"Q -> Ghost (Grey)\n" +
+						"R -> Flag (Purple)");
 			}
 		}
 	}

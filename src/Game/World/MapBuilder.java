@@ -26,6 +26,7 @@ public class MapBuilder {
 	public static int mushroom = new Color(178,0,255).getRGB();
 	public static int ghost = new Color(73,70,70).getRGB(); // new enemy color grey
 	public static int goomba = new Color(167,15,1).getRGB();
+	public static int flag = new Color(75, 0, 150).getRGB(); // new flag color 
 	
 	public static int wario = new Color(0,255,255).getRGB(); //player two color cyan
 	
@@ -73,6 +74,9 @@ public class MapBuilder {
 				}else if(currentPixel == wario){
 					BaseDynamicEntity Wario = new Wario(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
 					mapInCreation.addEnemy(Wario);
+				}else if(currentPixel == flag){
+					BaseStaticEntity Flag = new Flag(xPos,yPos,pixelMultiplier,pixelMultiplier,handler);
+					mapInCreation.addBlock(Flag);
 				}
 
 			}
