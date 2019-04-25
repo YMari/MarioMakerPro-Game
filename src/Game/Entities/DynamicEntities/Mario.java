@@ -29,61 +29,80 @@ public class Mario extends Player{
 
 	@Override
 	public void tick(){
-	    if(!grabbed) {
-            super.tick();
-            if (!this.hit) {
-                if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE) && !handler.getKeyManager().up && !handler.getKeyManager().down) {
-                    this.jump();
-                }
 
-                if (handler.getKeyManager().right && !handler.getKeyManager().up && !handler.getKeyManager().down) {
-                    if (handler.getKeyManager().runbutt) {
-                        velX = 6;
-                        running = true;
-                    } else {
-                        velX = 3;
-                        running = false;
-                    }
-                    if (facing.equals("Left")) {
-                        changeDirrection = true;
-                    }
-                    facing = "Right";
-                    moving = true;
-                } else if (handler.getKeyManager().left && !handler.getKeyManager().up && !handler.getKeyManager().down) {
-                    if (handler.getKeyManager().runbutt) {
-                        velX = -6;
-                        running = true;
-                    } else {
-                        velX = -3;
-                        running = false;
-                    }
-                    if (facing.equals("Right")) {
-                        changeDirrection = true;
-                    }
-                    facing = "Left";
-                    moving = true;
-                } else {
-                    velX = 0;
-                    moving = false;
-                }
-                if (jumping && velY <= 0) {
-                    jumping = false;
-                    falling = true;
-                } else if (jumping) {
-                    velY = velY - gravityAcc;
-                    y = (int) (y - velY);
-                }
 
-                if (falling) {
-                    y = (int) (y + velY);
-                    velY = velY + gravityAcc;
-                }
-                x += velX;
-            } else {
-                this.setX(this.getX() - 30);
-                this.setY(this.getY() - 30);
-            }
-        }
+
+		if(!grabbed) {
+			super.tick();
+			if (!this.hit) {
+				if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE) && !handler.getKeyManager().up && !handler.getKeyManager().down) {
+					this.jump();
+				}
+
+				if (handler.getKeyManager().right && !handler.getKeyManager().up && !handler.getKeyManager().down) {
+					if (handler.getKeyManager().runbutt) {
+						velX = 6;
+						running = true;
+					} else {
+						velX = 3;
+						running = false;
+					}
+					if (facing.equals("Left")) {
+						changeDirrection = true;
+					}
+					facing = "Right";
+					moving = true;
+				} else if (handler.getKeyManager().left && !handler.getKeyManager().up && !handler.getKeyManager().down) {
+					if (handler.getKeyManager().runbutt) {
+						velX = -6;
+						running = true;
+					} else {
+						velX = -3;
+						running = false;
+					}
+					if (facing.equals("Right")) {
+						changeDirrection = true;
+					}
+					facing = "Left";
+					moving = true;
+				} else {
+					velX = 0;
+					moving = false;
+				}
+
+				if (jumping && velY <= 0) {
+					jumping = false;
+					falling = true;
+				}
+
+				if (!jumping && falling && velY > 0) {
+					if (handler.getKeyManager().keyJustPressed(KeyEvent.VK_SPACE) && dJumpLock == false) {
+						this.doubleJump();   // makes mario jump midair if conditions are met
+						doubleJumping = false;
+						falling = true;
+					}
+				} 
+
+				else if (jumping || doubleJumping) {
+					velY = velY - gravityAcc;
+					y = (int) (y - velY);
+				}
+
+				if (!falling) {
+					dJumpLock = false;
+				}
+
+				if (falling) {
+					y = (int) (y + velY);
+					velY = velY + gravityAcc;
+				}
+
+				x += velX;
+			} else {
+				this.setX(this.getX() - 30);
+				this.setY(this.getY() - 30);
+			}
+		}
 	}
 
 	public void drawMario(Graphics2D g2) {

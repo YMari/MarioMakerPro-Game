@@ -70,13 +70,13 @@ public class Wario extends Player{
                     jumping = false;
                     falling = true;
                 } else if (jumping) {
-                    velY = velY - gravityAcc;
+                    velY = velY - gravityAcc2;
                     y = (int) (y - velY);
                 }
 
                 if (falling) {
                     y = (int) (y + velY);
-                    velY = velY + gravityAcc;
+                    velY = velY + gravityAcc2;
                 }
                 x += velX;
             } else {

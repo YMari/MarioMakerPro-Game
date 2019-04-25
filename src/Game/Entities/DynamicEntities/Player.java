@@ -20,6 +20,11 @@ public class Player extends BaseDynamicEntity {
 	public Animation playerSmallLeftAnimation,playerSmallRightAnimation,playerBigLeftWalkAnimation,playerBigRightWalkAnimation,playerBigLeftRunAnimation,playerBigRightRunAnimation;
 	public boolean falling = true, jumping = false,isBig=false,running = false,changeDirrection=false;
 	public double gravityAcc = 0.38;
+	public double gravityAcc2 = 0.21; // player two has less gravity on jump
+	
+	public boolean doubleJumping = false; // double jump for player one
+	public boolean dJumpLock = false; // to avoid spamming double jump
+	
 	int changeDirectionCounter = 0;
 
 	public Player(int x, int y, int width, int height, Handler handler, BufferedImage sprite,Animation PSLA,Animation PSRA,Animation PBLWA,Animation PBRWA,Animation PBLRA,Animation PBRRA) {
@@ -64,6 +69,7 @@ public class Player extends BaseDynamicEntity {
 				playerBigRightRunAnimation.tick();
 			}
 		}
+		
 	}
 
 	private void checkItemCollision() {
@@ -204,6 +210,15 @@ public class Player extends BaseDynamicEntity {
 		if(!jumping && !falling){
 			jumping=true;
 			velY=10;
+			handler.getGame().getMusicHandler().playJump();
+		}
+	}
+	
+	public void doubleJump() {  // mario only
+		if(!jumping && falling && dJumpLock == false){
+			doubleJumping=true;
+			dJumpLock = true;
+			velY = -8;
 			handler.getGame().getMusicHandler().playJump();
 		}
 	}
