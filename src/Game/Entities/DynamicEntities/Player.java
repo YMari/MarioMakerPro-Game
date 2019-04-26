@@ -113,12 +113,13 @@ public class Player extends BaseDynamicEntity {
 				win = true;
 				State.setState(handler.getGame().winState);
 			}
+			
 			if (brick instanceof BoundBlock && marioBottomBounds.intersects(brick.getTopBounds())) {
 				deadPlayer = this; // gets the player that died
 				marioDies = true;
 				break;
-
 			}
+			
 			if (marioBottomBounds.intersects(brickTopBounds)) {
 				mario.setY(brick.getY() - mario.getDimension().height + 1);
 				falling = false;
@@ -154,10 +155,18 @@ public class Player extends BaseDynamicEntity {
 	public void checkTopCollisions() {
 		Player mario = this;
 		ArrayList<BaseStaticEntity> bricks = handler.getMap().getBlocksOnMap();
+		
+		boolean marioDies = false;
 
 		Rectangle marioTopBounds = mario.getTopBounds();
 		for (BaseStaticEntity brick : bricks) {
 			Rectangle brickBottomBounds = brick.getBottomBounds();
+			
+			if (brick instanceof BoundBlock && marioTopBounds.intersects(brick.getBottomBounds())) {
+				deadPlayer = this; // gets the player that died
+				marioDies = true;
+				break;
+			}
 			
 			if (brick instanceof Flag && marioTopBounds.intersects(brickBottomBounds)) { //win condition
 				winPlayer = this; //gets the player that won
@@ -168,6 +177,12 @@ public class Player extends BaseDynamicEntity {
 			if (marioTopBounds.intersects(brickBottomBounds)) {
 				velY=0;
 				mario.setY(brick.getY() + brick.height);
+			}
+			
+			if (marioDies) {
+				handler.getGame().getMusicHandler().pauseBackground();
+				handler.getGame().getMusicHandler().playmarioDies();
+				State.setState(handler.getGame().gameOverState);
 			}
 		}
 	}
